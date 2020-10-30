@@ -7,7 +7,7 @@
   "keywords": [],
   "autoload": {
     "psr-4": {
-      "COL\\Library\\Infrastructure": "src/"
+      "COL\\Library\\Infrastructure\\": "src/"
     }
   },
   "require": {
