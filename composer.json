@@ -1,0 +1,35 @@
+{
+  "name": "crucible-of-legends/col-lib-api-infrastructure",
+  "description": "A library to share api infrastructure",
+  "homepage": "https://github.com/crucible-of-legends/col-lib-api-infrastructure",
+  "type": "library",
+  "license": "proprietary",
+  "keywords": [],
+  "autoload": {
+    "psr-4": {
+      "COL\\Library\\Infrastructure": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.3",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.14",
+    "phpro/grumphp": "^0.15.0",
+    "phpstan/phpstan": "^0.11.2",
+    "jakub-onderka/php-parallel-lint": "^1.0",
+    "phpunit/phpunit": "^7.5"
+  },
+  "repositories": [
+  ],
+  "config": {
+    "platform": {
+    }
+  },
+  "authors": [
+    {
+      "name": "Ghriim"
+    }
+  ]
+}
