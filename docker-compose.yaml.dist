@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+
+    php:
+        container_name: php-${PROJECT}
+        image: ${PROJECT}_php-fpm:${PHP_VERSION}
+        env_file:
+          - .env
+        build:
+          context: ./.docker/php-fpm/${PHP_VERSION}
+          args:
+            DOCKER_USER: lollip0ps
+            DOCKER_USER_ID: 1000
+        restart: ${RESTART_POLICIES}
+        environment:
+          COMPOSER_MEMORY_LIMIT: -1
+          SSH_AUTH_SOCK: /ssh-agent
+          TZ: ${TIMEZONE}
+        volumes:
+          - ${PWD}:/var/www/html
+          - $SSH_AUTH_SOCK:/ssh-agent
+        working_dir: /var/www/html
+        user: "lollip0ps"
+        entrypoint:
+          - ""
+        command:
+          - "php-fpm"
+        networks:
+          - "crucible-of-heroes"
+
+networks:
+    crucible-of-heroes:
+        driver: bridge
