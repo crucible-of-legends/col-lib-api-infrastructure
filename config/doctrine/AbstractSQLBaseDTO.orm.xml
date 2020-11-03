@@ -1,0 +1,7 @@
+<doctrine-mapping>
+    <mapped-superclass name="COL\Library\Infrastructure\Adapter\Database\SQL\AbstractSQLBaseDTO">
+
+        <field name="createdDate" type="datetime" nullable="false" unique="false" />
+        <field name="updatedDate" type="datetime" nullable="false" unique="false" />
+    </mapped-superclass>
+</doctrine-mapping>

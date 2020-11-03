@@ -11,8 +11,8 @@ abstract class AbstractSQLBaseDTO implements BaseDTOInterface
     public const STATUS_DELETED = 'deleted';
 
     protected ?int $id;
-    protected DateTimeInterface $createdAt;
-    protected ?DateTimeInterface $updatedAt;
+    protected DateTimeInterface $createdDate;
+    protected ?DateTimeInterface $updatedDate;
     protected string $status;
 
     public function getId(): ?int
@@ -20,29 +20,29 @@ abstract class AbstractSQLBaseDTO implements BaseDTOInterface
         return $this->id;
     }
 
+    public function getCreatedDate(): DateTimeInterface
+    {
+        return $this->createdDate;
+    }
+
+    public function setCreatedDate(DateTimeInterface $createdDate): void
+    {
+        $this->createdDate = $createdDate;
+    }
+
+    public function getUpdatedDate(): ?DateTimeInterface
+    {
+        return $this->updatedDate;
+    }
+
+    public function setUpdatedDate(?DateTimeInterface $updatedDate): void
+    {
+        $this->updatedDate = $updatedDate;
+    }
+
     public function isNew(): bool
     {
         return $this->id === null;
-    }
-
-    public function getCreatedAt(): DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    public function getUpdatedAt(): ?DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?DateTimeInterface $updatedAt): void
-    {
-        $this->updatedAt = $updatedAt;
     }
 
     public function getStatus(): string
