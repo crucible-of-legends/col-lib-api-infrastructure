@@ -9,11 +9,8 @@ interface BaseDTOInterface
     public const STATUS_ACTIVE = 'active';
     public const STATUS_DELETED = 'deleted';
 
-    public function getCreatedDate(): DateTimeInterface;
-    public function setCreatedDate(DateTimeInterface $createdAt): void;
-
-    public function getUpdatedDate(): ?DateTimeInterface;
-    public function setUpdatedDate(?DateTimeInterface $updatedAt): void;
+    public function getDeletedDate(): ?DateTimeInterface;
+    public function setDeletedDate(?DateTimeInterface $updatedAt): void;
 
     public function getStatus(): string;
     public function setStatus(string $status): void;
