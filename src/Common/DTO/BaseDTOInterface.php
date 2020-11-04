@@ -1,6 +1,6 @@
 <?php
 
-namespace COL\Library\Common\DTO;
+namespace COL\Library\Infrastructure\Common\DTO;
 
 use \DateTimeInterface;
 

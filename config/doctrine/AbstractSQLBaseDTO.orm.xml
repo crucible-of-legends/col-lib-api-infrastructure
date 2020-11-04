@@ -1,5 +1,5 @@
 <doctrine-mapping>
-    <mapped-superclass name="COL\Library\Infrastructure\Adapter\Database\SQL\AbstractSQLBaseDTO">
+    <mapped-superclass name="COL\Library\Infrastructure\Common\DTO\AbstractSQLBaseDTO">
         <field name="status" type="string" nullable="false" unique="false" />
         <field name="deletedDate" type="datetime" nullable="true" unique="false" />
     </mapped-superclass>

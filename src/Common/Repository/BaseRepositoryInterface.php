@@ -1,9 +1,9 @@
 <?php
 
-namespace COL\Library\Tools\Repository;
+namespace COL\Library\Infrastructure\Common\Repository;
 
 use COL\Library\Infrastructure\Database\QueryBuilderAdapterInterface;
-use COL\Library\Common\DTO\BaseDTOInterface;
+use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 
 interface BaseRepositoryInterface
 {

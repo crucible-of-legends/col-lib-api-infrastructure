@@ -3,7 +3,7 @@
 namespace COL\Library\Infrastructure\Adapter\Database\SQL;
 
 use COL\Library\Infrastructure\Database\QueryBuilderAdapterInterface;
-use COL\Library\Tools\DTO\BaseDTOInterface;
+use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 

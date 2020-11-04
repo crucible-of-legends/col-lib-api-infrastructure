@@ -2,7 +2,7 @@
 
 namespace COL\Library\Infrastructure\Database;
 
-use COL\Library\Tools\DTO\BaseDTOInterface;
+use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 
 interface DatabaseAdapterInterface
 {
