@@ -2,13 +2,9 @@
 
 namespace COL\Library\Common\DTO;
 
-use DateTimeInterface;
-
 abstract class AbstractSQLBaseDTO implements BaseDTOInterface
 {
     protected ?int $id;
-    protected DateTimeInterface $createdDate;
-    protected ?DateTimeInterface $updatedDate;
     protected string $status;
 
     public function getId(): ?int
@@ -16,27 +12,7 @@ abstract class AbstractSQLBaseDTO implements BaseDTOInterface
         return $this->id;
     }
 
-    public function getCreatedDate(): DateTimeInterface
-    {
-        return $this->createdDate;
-    }
-
-    public function setCreatedDate(DateTimeInterface $createdDate): void
-    {
-        $this->createdDate = $createdDate;
-    }
-
-    public function getUpdatedDate(): ?DateTimeInterface
-    {
-        return $this->updatedDate;
-    }
-
-    public function setUpdatedDate(?DateTimeInterface $updatedDate): void
-    {
-        $this->updatedDate = $updatedDate;
-    }
-
-    public function isNew(): bool
+        public function isNew(): bool
     {
         return $this->id === null;
     }
