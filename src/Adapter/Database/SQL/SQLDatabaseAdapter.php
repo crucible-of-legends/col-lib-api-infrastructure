@@ -2,8 +2,8 @@
 
 namespace COL\Library\Infrastructure\Adapter\Database\SQL;
 
-use COL\Library\Infrastructure\Database\BaseDTOInterface;
 use COL\Library\Infrastructure\Database\DatabaseAdapterInterface;
+use COL\Library\Tools\DTO\BaseDTOInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 

@@ -1,15 +1,11 @@
 <?php
 
-namespace COL\Library\Infrastructure\Adapter\Database\SQL;
+namespace COL\Library\Common\DTO;
 
-use COL\Library\Infrastructure\Database\BaseDTOInterface;
 use DateTimeInterface;
 
 abstract class AbstractSQLBaseDTO implements BaseDTOInterface
 {
-    public const STATUS_ACTIVE = 'active';
-    public const STATUS_DELETED = 'deleted';
-
     protected ?int $id;
     protected DateTimeInterface $createdDate;
     protected ?DateTimeInterface $updatedDate;

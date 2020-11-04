@@ -2,9 +2,11 @@
 
 namespace COL\Library\Infrastructure\Database;
 
+use COL\Library\Tools\DTO\BaseDTOInterface;
+
 interface QueryBuilderAdapterInterface
 {
-    public function addWhere(string $fieldName, $value): void;
+    public function addWhere(string $condition, string $parameterField, $parameterValue): void;
 
     public function limit(?int $limit = null): void;
 

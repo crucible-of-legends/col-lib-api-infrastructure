@@ -2,8 +2,8 @@
 
 namespace COL\Library\Infrastructure\Adapter\Database\SQL;
 
-use COL\Library\Infrastructure\Database\BaseDTOInterface;
 use COL\Library\Infrastructure\Database\QueryBuilderAdapterInterface;
+use COL\Library\Tools\DTO\BaseDTOInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 
@@ -16,9 +16,20 @@ final class SQLQueryBuilderAdapter implements QueryBuilderAdapterInterface
         $this->queryBuilder = $queryBuilder;
     }
 
-    public function addWhere(string $fieldName, $value): void
+    public function addWhere(string $condition, string $parameterField, $parameterValue): void
     {
-        $this->queryBuilder->andWhere("$fieldName = $value");
+        $this->queryBuilder->andWhere($condition);
+        if (null !== $parameterField) {
+            $this->queryBuilder->setParameter($parameterField, $parameterValue);
+        }
+    }
+
+    public function addSelect(string $objectAlias, string $fieldName): void
+    {
+        $joinedObjectAlias = $objectAlias . '_joined_by_' . $fieldName;
+
+        $this->queryBuilder->leftJoin($objectAlias . '.' . $fieldName, $objectAlias, $joinedObjectAlias . '.status != ' . BaseDTOInterface::STATUS_DELETED)
+                            ->addSelect($joinedObjectAlias);
     }
 
     public function limit(?int $limit = null): void
@@ -31,11 +42,6 @@ final class SQLQueryBuilderAdapter implements QueryBuilderAdapterInterface
     public function addOrderBy(string $fieldName, string $direction = 'ASC'): void
     {
         $this->queryBuilder->addOrderBy($fieldName, 'ASC' === $direction ? 0 : 1);
-    }
-
-    public function addSelect(string $fieldName): void
-    {
-        $this->queryBuilder->addSelect($fieldName);
     }
 
     /**
@@ -57,5 +63,57 @@ final class SQLQueryBuilderAdapter implements QueryBuilderAdapterInterface
         }
 
         return null;
+    }
+
+    public function cleanQueryBuilder(): void
+    {
+        $this->cleanQueryBuilderDqlPart( 'join');
+        $this->cleanQueryBuilderDqlPart( 'select');
+    }
+
+    /**
+     * @param string       $dqlPartName ('join', 'select', ...)
+     */
+    public function cleanQueryBuilderDqlPart(string $dqlPartName)
+    {
+        $dqlPart    = $this->queryBuilder->getDQLPart($dqlPartName);
+        $newDqlPart = [];
+        if (0 === count($dqlPart)) {
+            return;
+        }
+
+        $this->queryBuilder->resetDQLPart($dqlPartName);
+        if ('join' === $dqlPartName) {
+            $this->cleanJoinFromQuery($dqlPart, $dqlPartName, $newDqlPart);
+            return;
+        }
+        foreach ($dqlPart as $element) {
+            $newDqlPart[$element->__toString()] = $element;
+        }
+        $dqlPart = array_values($newDqlPart);
+        foreach ($dqlPart as $element) {
+            $this->queryBuilder->add($dqlPartName, $element, true);
+        }
+    }
+
+    private function cleanJoinFromQuery($dqlPart, string $dqlPartName, array $newDqlPart)
+    {
+        foreach ($dqlPart as $root => $elements) {
+            foreach ($elements as $element) {
+                preg_match(
+                    '/^(?P<joinType>[^ ]+) JOIN (?P<join>[^ ]+) (?P<alias>[^ ]+)/',
+                    $element->__toString(),
+                    $matches
+                );
+                if (false === array_key_exists($matches['alias'], $newDqlPart)) {
+                    $newDqlPart[$matches['alias']] = $element;
+                }
+            }
+            $dqlPart[$root] = array_values($newDqlPart);
+        }
+        $dqlPart = array_shift($dqlPart);
+        foreach ($dqlPart as $element) {
+            $this->queryBuilder->add($dqlPartName, [$element], true);
+        }
     }
 }
