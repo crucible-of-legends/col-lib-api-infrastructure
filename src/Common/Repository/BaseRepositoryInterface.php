@@ -2,7 +2,7 @@
 
 namespace COL\Library\Infrastructure\Common\Repository;
 
-use COL\Library\Infrastructure\Database\QueryBuilderAdapterInterface;
+use COL\Library\Infrastructure\Adapter\Database\QueryBuilderAdapterInterface;
 use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 
 interface BaseRepositoryInterface
