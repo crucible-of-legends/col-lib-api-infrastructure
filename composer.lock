@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7925d2ae0ea8f604c18625fc9285681",
+    "content-hash": "668896458d9bad135673b562f43102ef",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -60,6 +60,47 @@
             ],
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
             "time": "2020-08-25T05:50:16+00:00"
+        },
+        {
+            "name": "crucible-of-legends/col-lib-api-contracts",
+            "version": "1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/crucible-of-legends/col-lib-api-contracts.git",
+                "reference": "52872ba030163ff8f9ab4662f76e4154035c68c0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/crucible-of-legends/col-lib-api-contracts/zipball/52872ba030163ff8f9ab4662f76e4154035c68c0",
+                "reference": "52872ba030163ff8f9ab4662f76e4154035c68c0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "COL\\Library\\Contracts\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Ghriim",
+                    "email": "crucible.of.legends@gmail.com"
+                }
+            ],
+            "description": "A library to share api contracts",
+            "homepage": "https://github.com/crucible-of-legends/col-lib-api-contracts",
+            "support": {
+                "source": "https://github.com/crucible-of-legends/col-lib-api-contracts/tree/1.x",
+                "issues": "https://github.com/crucible-of-legends/col-lib-api-contracts/issues"
+            },
+            "time": "2020-11-05T14:52:35+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -2879,7 +2920,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "crucible-of-legends/col-lib-api-contracts": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

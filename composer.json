@@ -13,12 +13,17 @@
   "require": {
     "php": ">=7.4",
     "ext-json": "*",
-    "doctrine/orm": "^2.7"
+    "doctrine/orm": "^2.7",
+    "crucible-of-legends/col-lib-api-contracts": "1.x-dev"
   },
   "require-dev": {
     "phpunit/phpunit": "^7.5"
   },
   "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/crucible-of-legends/col-lib-api-contracts"
+    }
   ],
   "config": {
     "platform": {

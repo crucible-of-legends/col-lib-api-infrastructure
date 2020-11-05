@@ -1,5 +1,6 @@
 #Setup automatically docker compose variables
 include .env
+-include .env.local
 
 DOCKER=docker-compose
 DOCKER_EXEC= ${DOCKER} exec
