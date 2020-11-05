@@ -4,21 +4,22 @@ namespace COL\Library\Infrastructure\Adapter\Database\SQL;
 
 use COL\Library\Infrastructure\Adapter\Database\DatabaseAdapterInterface;
 use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 
 final class SQLDatabaseAdapter implements DatabaseAdapterInterface
 {
-    private EntityManagerInterface $entityManager;
+    private EntityManager $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-    public function createQueryBuilder(string $dtoName): SQLQueryBuilderAdapter
+    public function createQueryBuilder(string $dtoName, string $alias): SQLQueryBuilderAdapter
     {
-        return new SQLQueryBuilderAdapter($this->entityManager->createQueryBuilder());
+
+        return new SQLQueryBuilderAdapter($this->entityManager->getRepository($dtoName)->createQueryBuilder($alias));
     }
 
     public function flush(): void

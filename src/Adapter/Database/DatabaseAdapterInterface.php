@@ -6,7 +6,7 @@ use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 
 interface DatabaseAdapterInterface
 {
-    public function createQueryBuilder(string $dtoName): QueryBuilderAdapterInterface;
+    public function createQueryBuilder(string $dtoName, string $alias): QueryBuilderAdapterInterface;
 
     public function flush(): void;
 

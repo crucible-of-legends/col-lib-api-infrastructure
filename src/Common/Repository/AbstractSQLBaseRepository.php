@@ -6,10 +6,12 @@ use COL\Library\Infrastructure\Adapter\Database\QueryBuilderAdapterInterface;
 use COL\Library\Infrastructure\Adapter\Database\SQL\SQLDatabaseAdapter;
 use COL\Library\Infrastructure\Adapter\Database\SQL\SQLQueryBuilderAdapter;
 use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
+use Doctrine\ORM\QueryBuilder;
 
 abstract class AbstractSQLBaseRepository implements BaseRepositoryInterface
 {
     private SQLDatabaseAdapter $databaseAdapter;
+    private ?string $dtoAlias = null;
 
     public function __construct(SQLDatabaseAdapter $databaseAdapter)
     {
@@ -68,7 +70,17 @@ abstract class AbstractSQLBaseRepository implements BaseRepositoryInterface
 
     protected function getQueryBuilder(): SQLQueryBuilderAdapter
     {
-        return $this->databaseAdapter->createQueryBuilder($this->getDTOClassName());
+        return $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), $this->getAlias());
+    }
+
+    protected function getAlias(): string
+    {
+        if (null === $this->dtoAlias) {
+            $last = explode('\\', $this->getDTOClassName());
+            $this->dtoAlias = lcfirst(end($last));
+        }
+
+        return  $this->dtoAlias;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,4 +171,21 @@ abstract class AbstractSQLBaseRepository implements BaseRepositoryInterface
         return $criteria;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                        COMMON CRITERIA
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public function addCriterionId(QueryBuilderAdapterInterface $queryBuilder, $id): bool
+    {
+        return $this->addCriterion($queryBuilder, $this->getAlias(), 'id', $id);
+    }
+
+    public function addCriterionExcludedStatus(QueryBuilderAdapterInterface $queryBuilder, $excludedStatus): bool
+    {
+        return $this->addCriterion($queryBuilder, $this->getAlias(), 'status', $excludedStatus, true);
+    }
+
+    public function addCriterionStatus(QueryBuilderAdapterInterface $queryBuilder, $status): bool
+    {
+        return $this->addCriterion($queryBuilder, $this->getAlias(), 'status', $status);
+    }
 }

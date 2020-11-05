@@ -51,7 +51,7 @@ final class SQLQueryBuilderAdapter implements QueryBuilderAdapterInterface
     {
         $result = $this->queryBuilder->getQuery()->getResult();
 
-        return null === $result ? [] : $result->toArray();
+        return null === $result ? [] : $result;
     }
 
     public function getSingleResult(): ?BaseDTOInterface
