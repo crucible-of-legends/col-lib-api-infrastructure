@@ -1,6 +1,6 @@
 <?php
 
-namespace COL\Library\Infrastructure\Database;
+namespace COL\Library\Infrastructure\Adapter\Database;
 
 use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 
