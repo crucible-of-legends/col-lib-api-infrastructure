@@ -4,14 +4,14 @@ namespace COL\Library\Infrastructure\Adapter\Database\SQL;
 
 use COL\Library\Infrastructure\Adapter\Database\DatabaseAdapterInterface;
 use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 
 final class SQLDatabaseAdapter implements DatabaseAdapterInterface
 {
-    private EntityManager $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
