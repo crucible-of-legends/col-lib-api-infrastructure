@@ -6,7 +6,6 @@ use COL\Library\Infrastructure\Adapter\Database\QueryBuilderAdapterInterface;
 use COL\Library\Infrastructure\Adapter\Database\SQL\SQLDatabaseAdapter;
 use COL\Library\Infrastructure\Adapter\Database\SQL\SQLQueryBuilderAdapter;
 use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
-use Doctrine\ORM\QueryBuilder;
 
 abstract class AbstractSQLBaseRepository implements BaseRepositoryInterface
 {
@@ -66,6 +65,15 @@ abstract class AbstractSQLBaseRepository implements BaseRepositoryInterface
         }
 
         return $queryBuilder->getMultipleResults();
+    }
+
+    public function countByCriteria(array $criteria = []): int
+    {
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder->addCount($this->getAlias(), 'id');
+        $this->addCriteria($queryBuilder, $this->addGenericCriteria($criteria));
+
+        return $queryBuilder->getCountResult();
     }
 
     protected function getQueryBuilder(): SQLQueryBuilderAdapter

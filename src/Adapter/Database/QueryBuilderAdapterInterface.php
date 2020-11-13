@@ -8,6 +8,8 @@ interface QueryBuilderAdapterInterface
 {
     public function addWhere(string $condition, string $parameterField, $parameterValue): void;
 
+    public function addCount(string $objectAlias, string $fieldName): void;
+
     public function limit(?int $limit = null): void;
 
     public function addOrderBy(string $fieldName, string $direction = 'ASC'): void;
@@ -18,4 +20,6 @@ interface QueryBuilderAdapterInterface
     public function getMultipleResults(): array;
 
     public function getSingleResult(): ?BaseDTOInterface;
+
+    public function getCountResult(): int;
 }

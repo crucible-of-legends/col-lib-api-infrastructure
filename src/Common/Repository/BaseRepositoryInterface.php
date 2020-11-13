@@ -28,4 +28,6 @@ interface BaseRepositoryInterface
     ): QueryBuilderAdapterInterface;
 
     public function findOneByCriteria(array $criteria, array $selects = []): ?BaseDTOInterface;
+
+    public function countByCriteria(array $criteria = []): int;
 }

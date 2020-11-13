@@ -24,6 +24,11 @@ abstract class AbstractSQLBaseDTOProvider
         return $this->getRepository()->findOneByCriteria($critieria, $selects);
     }
 
+    public function countByCriteria(array $critieria = []): int
+    {
+        return $this->getRepository()->countByCriteria($critieria);
+    }
+
     public function exists(array $critieria): bool
     {
         //return $this->getRepository()->exists($critieria);

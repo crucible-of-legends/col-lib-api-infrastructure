@@ -5,6 +5,7 @@ namespace COL\Library\Infrastructure\Adapter\Database\SQL;
 use COL\Library\Infrastructure\Adapter\Database\QueryBuilderAdapterInterface;
 use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 
 final class SQLQueryBuilderAdapter implements QueryBuilderAdapterInterface
@@ -30,6 +31,11 @@ final class SQLQueryBuilderAdapter implements QueryBuilderAdapterInterface
 
         $this->queryBuilder->leftJoin($objectAlias . '.' . $fieldName, $objectAlias, $joinedObjectAlias . '.status != ' . BaseDTOInterface::STATUS_DELETED)
                             ->addSelect($joinedObjectAlias);
+    }
+
+    public function addCount(string $objectAlias, string $fieldName): void
+    {
+        $this->queryBuilder->select("COUNT($objectAlias.$fieldName)");
     }
 
     public function limit(?int $limit = null): void
@@ -59,6 +65,19 @@ final class SQLQueryBuilderAdapter implements QueryBuilderAdapterInterface
         try {
             return $this->queryBuilder->getQuery()->getOneOrNullResult();
         } catch (NonUniqueResultException $exception) {
+            // TODO: Do something with that !
+        }
+
+        return null;
+    }
+
+    public function getCountResult(): int
+    {
+        try {
+            return $this->queryBuilder->getQuery()->getSingleScalarResult();
+        } catch (NonUniqueResultException $exception) {
+            // TODO: Do something with that !
+        } catch (NoResultException $exception) {
             // TODO: Do something with that !
         }
 
