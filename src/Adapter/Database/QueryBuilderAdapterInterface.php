@@ -10,7 +10,7 @@ interface QueryBuilderAdapterInterface
 
     public function addCount(string $objectAlias, string $fieldName): void;
 
-    public function limit(?int $limit = null): void;
+    public function pagination(int $pageNumber, int $nbPerPage): void;
 
     public function addOrderBy(string $fieldName, string $direction = 'ASC'): void;
 

@@ -55,13 +55,13 @@ abstract class AbstractSQLBaseRepository implements BaseRepositoryInterface
         array $criteria = [],
         array $selects = [],
         array $orders = [],
-        ?int $limit = null,
-        ?int $offset = null
+        ?int $pageNumber = null,
+        ?int $nbPerPage = null
     ): array
     {
         $queryBuilder = $this->findManyByCriteriaBuilder($criteria, $selects, $orders);
-        if ($limit) {
-            $queryBuilder->limit($limit);
+        if (null !== $pageNumber && null !== $nbPerPage) {
+            $queryBuilder->pagination($pageNumber, $nbPerPage);
         }
 
         return $queryBuilder->getMultipleResults();

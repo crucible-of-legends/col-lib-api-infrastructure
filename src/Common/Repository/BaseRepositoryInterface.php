@@ -17,8 +17,8 @@ interface BaseRepositoryInterface
         array $criteria = [],
         array $selects = [],
         array $orders = [],
-        ?int $limit = null,
-        ?int $offset = null
+        ?int $pageNumber = null,
+        ?int $nbPerPage = null
     ): array;
 
     public function findManyByCriteriaBuilder(

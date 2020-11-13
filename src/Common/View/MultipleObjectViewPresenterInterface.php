@@ -12,5 +12,5 @@ interface MultipleObjectViewPresenterInterface
      *
      * @return BaseViewModelInterface[]
      */
-    public function buildMultipleObjectVueModel(array $dtos): array;
+    public function buildMultipleObjectVueModel(array $dtos, ?int $nbTotal = null, ?int $pageNumber = null, ?int $nbPerPage = null): array;
 }

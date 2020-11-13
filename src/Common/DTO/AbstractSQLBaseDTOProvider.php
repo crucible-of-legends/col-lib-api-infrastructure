@@ -11,9 +11,9 @@ abstract class AbstractSQLBaseDTOProvider
     /**
      * @return BaseDTOInterface[]
      */
-    public function getManyByCriteria(array $critieria = [], array $selects = [], array $orders = [], ?int $limit = null, ?int $offset = null): array
+    public function getManyByCriteria(array $critieria = [], array $selects = [], array $orders = [], ?int $pageNumber = null, ?int $nbPerPage = null): array
     {
-        return $this->getRepository()->findManyByCriteria($critieria, $selects, $orders, $limit, $offset);
+        return $this->getRepository()->findManyByCriteria($critieria, $selects, $orders, $pageNumber, $nbPerPage);
     }
 
     /**

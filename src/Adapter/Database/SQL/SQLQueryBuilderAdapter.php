@@ -38,11 +38,10 @@ final class SQLQueryBuilderAdapter implements QueryBuilderAdapterInterface
         $this->queryBuilder->select("COUNT($objectAlias.$fieldName)");
     }
 
-    public function limit(?int $limit = null): void
+    public function pagination(int $pageNumber, int $nbPerPage): void
     {
-        if (null !== $limit) {
-            $this->queryBuilder->setMaxResults($limit);
-        }
+        $this->queryBuilder->setFirstResult($pageNumber*$nbPerPage);
+        $this->queryBuilder->setMaxResults(($pageNumber+1)*$nbPerPage);
     }
 
     public function addOrderBy(string $fieldName, string $direction = 'ASC'): void
