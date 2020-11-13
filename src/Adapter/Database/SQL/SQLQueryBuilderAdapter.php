@@ -40,8 +40,8 @@ final class SQLQueryBuilderAdapter implements QueryBuilderAdapterInterface
 
     public function pagination(int $pageNumber, int $nbPerPage): void
     {
-        $this->queryBuilder->setFirstResult($pageNumber*$nbPerPage);
-        $this->queryBuilder->setMaxResults(($pageNumber+1)*$nbPerPage);
+        $this->queryBuilder->setFirstResult(($pageNumber-1)*$nbPerPage);
+        $this->queryBuilder->setMaxResults($pageNumber*$nbPerPage);
     }
 
     public function addOrderBy(string $fieldName, string $direction = 'ASC'): void
