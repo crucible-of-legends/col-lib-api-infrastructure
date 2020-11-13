@@ -8,8 +8,8 @@ use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 interface MultipleObjectViewPresenterInterface
 {
     public const DISPLAY_FORMAT_SMALL = 'small';
-    public const DISPLAY_FORMAT_MEDIUM = 'small';
-    public const DISPLAY_FORMAT_LARGE = 'small';
+    public const DISPLAY_FORMAT_MEDIUM = 'medium';
+    public const DISPLAY_FORMAT_LARGE = 'large';
 
     /**
      * @param BaseDTOInterface[] $dtos
