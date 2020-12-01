@@ -4,7 +4,7 @@ namespace COL\Library\Infrastructure\Adapter\Database\SQL;
 
 use Doctrine\ORM\PersistentCollection;
 
-final class SQLDatabaseCollectionAdapter
+final class DatabaseCollectionAdapter
 {
     public static function getDatabaseCollection($items): array
     {
