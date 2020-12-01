@@ -22,7 +22,7 @@ abstract class AbstractSQLBaseRepository implements BaseRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function findOneByCriteria(array $criteria = [], array $selects = []): BaseDTOInterface
+    public function findOneByCriteria(array $criteria = [], array $selects = []): ?BaseDTOInterface
     {
         $queryBuilder = $this->getQueryBuilder();
         $this->addCriteria($queryBuilder, $this->addGenericCriteria($criteria))
