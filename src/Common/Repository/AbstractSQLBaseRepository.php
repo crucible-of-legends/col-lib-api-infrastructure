@@ -131,8 +131,12 @@ abstract class AbstractSQLBaseRepository implements BaseRepositoryInterface
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                        UNIT OPERATIONS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    protected function addCriterion(QueryBuilderAdapterInterface $queryBuilder, $alias, $fieldName, $value, $exclude = false): bool
+    protected function addCriterion(QueryBuilderAdapterInterface $queryBuilder, string $fieldName, $value, ?string $alias = null, $exclude = false): bool
     {
+        if (null === $alias) {
+            $alias = $this->getAlias();
+        }
+
         [$condition, $parameterField, $parameterValue] = $this->computeCriterionCondition($alias, $fieldName, $value, $exclude);
         if (null === $condition) {
             return false;
@@ -184,16 +188,16 @@ abstract class AbstractSQLBaseRepository implements BaseRepositoryInterface
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function addCriterionId(QueryBuilderAdapterInterface $queryBuilder, $id): bool
     {
-        return $this->addCriterion($queryBuilder, $this->getAlias(), 'id', $id);
+        return $this->addCriterion($queryBuilder, 'id', $id);
     }
 
     public function addCriterionExcludedStatus(QueryBuilderAdapterInterface $queryBuilder, $excludedStatus): bool
     {
-        return $this->addCriterion($queryBuilder, $this->getAlias(), 'status', $excludedStatus, true);
+        return $this->addCriterion($queryBuilder, 'status', $excludedStatus, $this->getAlias(),true);
     }
 
     public function addCriterionStatus(QueryBuilderAdapterInterface $queryBuilder, $status): bool
     {
-        return $this->addCriterion($queryBuilder, $this->getAlias(), 'status', $status);
+        return $this->addCriterion($queryBuilder, 'status', $status);
     }
 }
