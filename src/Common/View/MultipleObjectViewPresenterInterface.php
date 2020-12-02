@@ -11,6 +11,9 @@ interface MultipleObjectViewPresenterInterface
     public const DISPLAY_FORMAT_MEDIUM = 'medium';
     public const DISPLAY_FORMAT_LARGE = 'large';
 
+    public const DEFAULT_PAGE_NUMBER = 1;
+    public const DEFAULT_NB_PER_PAGE = 50;
+
     /**
      * @param BaseDTOInterface[] $dtos
      *

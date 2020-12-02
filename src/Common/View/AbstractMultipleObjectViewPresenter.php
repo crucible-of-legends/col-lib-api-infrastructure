@@ -25,6 +25,14 @@ abstract class AbstractMultipleObjectViewPresenter implements MultipleObjectView
             }
         }
 
+        if (null === $pageNumber) {
+            $pageNumber = self::DEFAULT_PAGE_NUMBER;
+        }
+
+        if (null === $nbPerPage) {
+            $nbPerPage = self::DEFAULT_NB_PER_PAGE;
+        }
+
         return $this->formatWithPagination($models, $nbTotal, $pageNumber, $nbPerPage);
     }
 
