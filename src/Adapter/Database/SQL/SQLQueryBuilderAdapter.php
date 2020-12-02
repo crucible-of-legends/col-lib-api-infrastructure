@@ -27,10 +27,10 @@ final class SQLQueryBuilderAdapter implements QueryBuilderAdapterInterface
 
     public function addSelect(string $objectAlias, string $fieldName): void
     {
-        $joinedObjectAlias = $objectAlias . '_joined_by_' . $fieldName;
+        $joinedObjectAlias = $objectAlias . '_' . $fieldName;
 
-        $this->queryBuilder->leftJoin($objectAlias . '.' . $fieldName, $objectAlias, $joinedObjectAlias . '.status != ' . BaseDTOInterface::STATUS_DELETED)
-                            ->addSelect($joinedObjectAlias);
+        $this->queryBuilder->leftJoin($objectAlias . '.' . $fieldName, $joinedObjectAlias, $joinedObjectAlias . '.status != ' . BaseDTOInterface::STATUS_DELETED)
+                           ->addSelect($joinedObjectAlias);
     }
 
     public function addCount(string $objectAlias, string $fieldName): void
