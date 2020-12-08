@@ -4,6 +4,7 @@ namespace COL\Library\Infrastructure\Common\View;
 
 use COL\Library\Contracts\View\Model\BaseViewModelInterface;
 use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
+use COL\Library\Infrastructure\Common\Registry\DisplayFormatRegistry;
 
 abstract class AbstractMultipleObjectViewPresenter implements MultipleObjectViewPresenterInterface
 {
@@ -12,13 +13,19 @@ abstract class AbstractMultipleObjectViewPresenter implements MultipleObjectView
      *
      * @return BaseViewModelInterface[]
      */
-    public function buildMultipleObjectVueModel(array $dtos, string $displayFormat, ?int $nbTotal = null, ?int $pageNumber = null, ?int $nbPerPage = null): array
+    public function buildMultipleObjectVueModel(
+        array $dtos,
+        string $displayFormat = DisplayFormatRegistry::DISPLAY_FORMAT_SMALL,
+        ?int $nbTotal = null,
+        ?int $pageNumber = null,
+        ?int $nbPerPage = null
+    ): array
     {
         $models = [];
         foreach ($dtos as $dto) {
-            if (self::DISPLAY_FORMAT_LARGE === $displayFormat) {
+            if (DisplayFormatRegistry::DISPLAY_FORMAT_LARGE === $displayFormat) {
                 $models[] = $this->buildVueModelLargeFormat($dto);
-            } elseif(self::DISPLAY_FORMAT_MEDIUM === $displayFormat) {
+            } elseif(DisplayFormatRegistry::DISPLAY_FORMAT_MEDIUM === $displayFormat) {
                 $models[] = $this->buildVueModelMediumFormat($dto);
             } else {
                 $models[] = $this->buildVueModelSmallFormat($dto);

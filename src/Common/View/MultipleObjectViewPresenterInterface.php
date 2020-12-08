@@ -4,13 +4,10 @@ namespace COL\Library\Infrastructure\Common\View;
 
 use COL\Library\Contracts\View\Model\BaseViewModelInterface;
 use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
+use COL\Library\Infrastructure\Common\Registry\DisplayFormatRegistry;
 
 interface MultipleObjectViewPresenterInterface
 {
-    public const DISPLAY_FORMAT_SMALL = 'small';
-    public const DISPLAY_FORMAT_MEDIUM = 'medium';
-    public const DISPLAY_FORMAT_LARGE = 'large';
-
     public const DEFAULT_PAGE_NUMBER = 1;
     public const DEFAULT_NB_PER_PAGE = 50;
 
@@ -21,7 +18,7 @@ interface MultipleObjectViewPresenterInterface
      */
     public function buildMultipleObjectVueModel(
         array $dtos,
-        string $displayFormat,
+        string $displayFormat = DisplayFormatRegistry::DISPLAY_FORMAT_SMALL,
         ?int $nbTotal = null,
         ?int $pageNumber = null,
         ?int $nbPerPage = null
