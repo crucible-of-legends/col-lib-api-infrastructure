@@ -9,6 +9,13 @@ use COL\Library\Infrastructure\Common\Registry\DisplayFormatRegistry;
 
 abstract class AbstractSingleObjectViewPresenter implements SingleObjectViewPresenterInterface
 {
+    protected array $displayFormats;
+
+    public function __construct(array $displayFormats = [])
+    {
+        $this->displayFormats = $displayFormats;
+    }
+
     public function buildSingleObjectVueModel(
         BaseDTOInterface $dto,
         ?string $displayFormat = DisplayFormatRegistry::DISPLAY_FORMAT_SMALL

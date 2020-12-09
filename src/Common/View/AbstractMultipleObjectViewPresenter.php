@@ -8,6 +8,13 @@ use COL\Library\Infrastructure\Common\Registry\DisplayFormatRegistry;
 
 abstract class AbstractMultipleObjectViewPresenter implements MultipleObjectViewPresenterInterface
 {
+    protected array $displayFormats;
+
+    public function __construct(array $displayFormats = [])
+    {
+        $this->displayFormats = $displayFormats;
+    }
+
     /**
      * @param BaseDTOInterface[] $dtos
      *
