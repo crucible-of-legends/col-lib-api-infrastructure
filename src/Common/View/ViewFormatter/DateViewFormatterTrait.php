@@ -2,7 +2,7 @@
 
 namespace COL\Library\Infrastructure\Common\View\ViewFormatter;
 
-trait DateViewFormatter
+trait DateViewFormatterTrait
 {
     protected function dateTimeString(?\DateTimeInterface $dateTime): string
     {

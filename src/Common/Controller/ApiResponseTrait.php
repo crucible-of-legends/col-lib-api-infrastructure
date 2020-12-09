@@ -5,9 +5,8 @@ namespace COL\Library\Infrastructure\Common\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-abstract class AbstractBaseController
+trait ApiResponseTrait
 {
-
     protected function buildResponse($data, bool $emptyResponse = false): JsonResponse
     {
         if (true === $emptyResponse) {
@@ -15,11 +14,6 @@ abstract class AbstractBaseController
         }
 
         return $this->toJSON($data);
-    }
-
-    protected function currentUserWasNotFound(): JsonResponse
-    {
-        return new JsonResponse('', Response::HTTP_UNAUTHORIZED);
     }
 
     private function toJSON($data): JsonResponse
