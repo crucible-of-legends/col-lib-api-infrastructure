@@ -2,84 +2,13 @@
 
 namespace COL\Library\Infrastructure\Common\Repository;
 
+use COL\Library\Infrastructure\Adapter\Database\DatabaseAdapterInterface;
 use COL\Library\Infrastructure\Adapter\Database\QueryBuilderAdapterInterface;
-use COL\Library\Infrastructure\Adapter\Database\SQL\SQLDatabaseAdapter;
-use COL\Library\Infrastructure\Adapter\Database\SQL\SQLQueryBuilderAdapter;
-use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 
-abstract class AbstractSQLBaseRepository implements BaseRepositoryInterface
+abstract class AbstractSQLBaseRepository extends AbstractBaseRepository
 {
-    private SQLDatabaseAdapter $databaseAdapter;
+    private DatabaseAdapterInterface $databaseAdapter;
     private ?string $dtoAlias = null;
-
-    public function __construct(SQLDatabaseAdapter $databaseAdapter)
-    {
-        $this->databaseAdapter = $databaseAdapter;
-    }
-
-    abstract protected function getDTOClassName(): string;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findOneByCriteria(array $criteria = [], array $selects = []): ?BaseDTOInterface
-    {
-        $queryBuilder = $this->getQueryBuilder();
-        $this->addCriteria($queryBuilder, $this->addGenericCriteria($criteria))
-             ->addSelects($queryBuilder, $selects);
-
-        $queryBuilder->cleanQueryBuilder();
-
-        return $queryBuilder->getSingleResult();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findManyByCriteriaBuilder(array $criteria = [], array $selects = [], array $orders = []): QueryBuilderAdapterInterface
-    {
-        $queryBuilder = $this->getQueryBuilder();
-        $this->addCriteria($queryBuilder, $this->addGenericCriteria($criteria))
-             ->addOrderBys($queryBuilder, $orders)
-             ->addSelects($queryBuilder, $selects);
-
-        $queryBuilder->cleanQueryBuilder();
-
-        return $queryBuilder;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function findManyByCriteria(
-        array $criteria = [],
-        array $selects = [],
-        array $orders = [],
-        ?int $pageNumber = null,
-        ?int $nbPerPage = null
-    ): array
-    {
-        $queryBuilder = $this->findManyByCriteriaBuilder($criteria, $selects, $orders);
-        if (null !== $pageNumber && null !== $nbPerPage) {
-            $queryBuilder->pagination($pageNumber, $nbPerPage);
-        }
-
-        return $queryBuilder->getMultipleResults();
-    }
-
-    public function countByCriteria(array $criteria = []): int
-    {
-        $queryBuilder = $this->getQueryBuilder();
-        $queryBuilder->addCount($this->getAlias(), 'id');
-        $this->addCriteria($queryBuilder, $this->addGenericCriteria($criteria));
-
-        return $queryBuilder->getCountResult();
-    }
-
-    protected function getQueryBuilder(): SQLQueryBuilderAdapter
-    {
-        return $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), $this->getAlias());
-    }
 
     protected function getAlias(): string
     {
@@ -89,43 +18,6 @@ abstract class AbstractSQLBaseRepository implements BaseRepositoryInterface
         }
 
         return  $this->dtoAlias;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //                                        BATCH OPERATIONS
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    protected function addCriteria(QueryBuilderAdapterInterface $queryBuilder, array $criteria = []): self
-    {
-        foreach ($criteria as $field => $value) {
-            if ($field) {
-                $this->{'addCriterion' . ucfirst($field)}($queryBuilder, $value);
-            }
-        }
-
-        return $this;
-    }
-
-    protected function addSelects(QueryBuilderAdapterInterface $queryBuilder, array $selects = []): self
-    {
-        foreach ($selects as $select) {
-            if ($select) {
-                $this->{'addSelect' . ucfirst($select)}($queryBuilder);
-            }
-        }
-
-        return $this;
-    }
-
-    protected function addOrderBys(QueryBuilderAdapterInterface $queryBuilder, array $orderBys = []): self
-    {
-        foreach ($orderBys as $orderBy => $direction) {
-            if ($orderBy) {
-                $this->{'addOrderBy' . ucfirst($orderBy)}($queryBuilder, $direction);
-            }
-        }
-
-        return $this;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,16 +63,6 @@ abstract class AbstractSQLBaseRepository implements BaseRepositoryInterface
         }
 
         return [$condition, $parameterField, $parameterValue];
-    }
-
-    private function addGenericCriteria(array $criteria = []): array
-    {
-        if (false === isset($criteria['status']) && property_exists($this->getDTOClassName(), 'status')) {
-            $excludedStatus             = isset($criteria['excludedStatus']) ?? $criteria['excludedStatus'];
-            $excludedStatus             = is_array($excludedStatus) ? $excludedStatus : [$excludedStatus];
-            $criteria['excludedStatus'] = array_merge([BaseDTOInterface::STATUS_DELETED], $excludedStatus);
-        }
-        return $criteria;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

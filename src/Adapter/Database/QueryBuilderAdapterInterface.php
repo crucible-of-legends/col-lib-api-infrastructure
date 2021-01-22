@@ -22,4 +22,8 @@ interface QueryBuilderAdapterInterface
     public function getSingleResult(): ?BaseDTOInterface;
 
     public function getCountResult(): int;
+
+    public function exists(): bool;
+
+    public function limit(int $limit): void;
 }

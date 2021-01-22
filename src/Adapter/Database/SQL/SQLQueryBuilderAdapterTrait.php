@@ -2,21 +2,10 @@
 
 namespace COL\Library\Infrastructure\Adapter\Database\SQL;
 
-use COL\Library\Infrastructure\Adapter\Database\QueryBuilderAdapterInterface;
 use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
-use Doctrine\ORM\QueryBuilder;
 
-final class SQLQueryBuilderAdapter implements QueryBuilderAdapterInterface
+trait SQLQueryBuilderAdapterTrait
 {
-    private QueryBuilder $queryBuilder;
-
-    public function __construct(QueryBuilder $queryBuilder)
-    {
-        $this->queryBuilder = $queryBuilder;
-    }
-
     public function addWhere(string $condition, string $parameterField, $parameterValue): void
     {
         $this->queryBuilder->andWhere($condition);
@@ -61,26 +50,19 @@ final class SQLQueryBuilderAdapter implements QueryBuilderAdapterInterface
 
     public function getSingleResult(): ?BaseDTOInterface
     {
-        try {
-            return $this->queryBuilder->getQuery()->getOneOrNullResult();
-        } catch (NonUniqueResultException $exception) {
-            // TODO: Do something with that !
-        }
-
-        return null;
+        return $this->queryBuilder->getQuery()->getOneOrNullResult();
     }
 
     public function getCountResult(): int
     {
-        try {
-            return $this->queryBuilder->getQuery()->getSingleScalarResult();
-        } catch (NonUniqueResultException $exception) {
-            // TODO: Do something with that !
-        } catch (NoResultException $exception) {
-            // TODO: Do something with that !
-        }
+        return $this->queryBuilder->getQuery()->getSingleScalarResult();
+    }
 
-        return null;
+    public function exists(): bool
+    {
+        $this->queryBuilder->count();
+
+        return 0 < $this->queryBuilder->getQuery()->execute();
     }
 
     public function cleanQueryBuilder(): void

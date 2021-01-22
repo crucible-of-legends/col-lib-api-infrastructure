@@ -2,13 +2,11 @@
 
 namespace COL\Library\Infrastructure\Adapter\Database\SQL;
 
-use Doctrine\ORM\PersistentCollection;
-
 final class DatabaseCollectionAdapter
 {
     public static function getDatabaseCollection($items): array
     {
-        if ($items instanceof PersistentCollection) {
+        if (true === method_exists($items, 'toArray')) {
             return $items->toArray();
         }
 
