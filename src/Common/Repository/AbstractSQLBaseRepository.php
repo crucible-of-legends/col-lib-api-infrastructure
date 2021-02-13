@@ -2,12 +2,10 @@
 
 namespace COL\Library\Infrastructure\Common\Repository;
 
-use COL\Library\Infrastructure\Adapter\Database\DatabaseAdapterInterface;
 use COL\Library\Infrastructure\Adapter\Database\QueryBuilderAdapterInterface;
 
 abstract class AbstractSQLBaseRepository extends AbstractBaseRepository
 {
-    private DatabaseAdapterInterface $databaseAdapter;
     private ?string $dtoAlias = null;
 
     protected function getAlias(): string
