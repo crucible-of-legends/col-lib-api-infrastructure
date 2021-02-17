@@ -6,18 +6,6 @@ use COL\Library\Infrastructure\Adapter\Database\QueryBuilderAdapterInterface;
 
 abstract class AbstractSQLBaseRepository extends AbstractBaseRepository
 {
-    private ?string $dtoAlias = null;
-
-    protected function getAlias(): string
-    {
-        if (null === $this->dtoAlias) {
-            $last = explode('\\', $this->getDTOClassName());
-            $this->dtoAlias = lcfirst(end($last));
-        }
-
-        return  $this->dtoAlias;
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                        UNIT OPERATIONS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

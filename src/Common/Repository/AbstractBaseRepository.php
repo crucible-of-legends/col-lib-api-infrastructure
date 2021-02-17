@@ -9,6 +9,7 @@ use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 abstract class AbstractBaseRepository implements BaseRepositoryInterface
 {
     private DatabaseAdapterInterface $databaseAdapter;
+    private ?string $dtoAlias = null;
 
     public function __construct(DatabaseAdapterInterface $databaseAdapter)
     {
@@ -75,6 +76,16 @@ abstract class AbstractBaseRepository implements BaseRepositoryInterface
         $this->addCriteria($queryBuilder, $criteria);
 
         return $queryBuilder->exists();
+    }
+
+    protected function getAlias(): string
+    {
+        if (null === $this->dtoAlias) {
+            $last = explode('\\', $this->getDTOClassName());
+            $this->dtoAlias = lcfirst(end($last));
+        }
+
+        return  $this->dtoAlias;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
