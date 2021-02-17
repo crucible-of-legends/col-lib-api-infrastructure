@@ -69,6 +69,6 @@ trait DocumentQueryBuilderAdapterTrait
 
     public function getCountResult(): int
     {
-        return $this->queryBuilder->getQuery()->getSingleResult();
+        return $this->queryBuilder->getQuery()->execute();
     }
 }
