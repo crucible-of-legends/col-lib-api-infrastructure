@@ -14,7 +14,11 @@ abstract class AbstractDocumentBaseRepository extends AbstractBaseRepository
             return false;
         }
 
-        $queryBuilder->equals($fieldName, $value);
+        if (true === $exclude) {
+            $queryBuilder->notEquals($fieldName, $value);
+        } else {
+            $queryBuilder->equals($fieldName, $value);
+        }
 
         return true;
     }

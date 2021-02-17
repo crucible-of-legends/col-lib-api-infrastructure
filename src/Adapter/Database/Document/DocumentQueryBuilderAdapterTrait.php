@@ -15,6 +15,11 @@ trait DocumentQueryBuilderAdapterTrait
         }
     }
 
+    public function notEquals(string $fieldName, $value): void
+    {
+        $this->queryBuilder->field($fieldName)->notEqual($value);
+    }
+
     public function limit(?int $limit = null): void
     {
         if (null !== $limit) {
