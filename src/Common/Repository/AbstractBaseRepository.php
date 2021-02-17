@@ -62,7 +62,11 @@ abstract class AbstractBaseRepository implements BaseRepositoryInterface
 
     public function countByCriteria(array $criteria = []): int
     {
+        $queryBuilder = $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), '');
+        $queryBuilder->addCount($this->getAlias(), 'id');
+        $this->addCriteria($queryBuilder, $this->addGenericCriteria($criteria));
 
+        return $queryBuilder->getCountResult();
     }
 
     public function exists(array $criteria): bool
