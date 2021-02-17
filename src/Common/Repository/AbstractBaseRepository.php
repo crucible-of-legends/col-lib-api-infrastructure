@@ -28,14 +28,24 @@ abstract class AbstractBaseRepository implements BaseRepositoryInterface
         ?int $offset = null
     ): array
     {
+        $queryBuilder = $this->findManyByCriteriaBuilder($criteria, $selects, $orders);
+        $queryBuilder->limit($limit);
+
+        return $queryBuilder->getMultipleResults();
+    }
+
+    public function findManyByCriteriaBuilder(
+        array $criteria = [],
+        array $selects = [],
+        array $orders = []
+    ): QueryBuilderAdapterInterface
+    {
         $queryBuilder = $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), '');
         $this->addCriteria($queryBuilder, $this->addGenericCriteria($criteria))
              ->addOrderBys($queryBuilder, $orders)
              ->addSelects($queryBuilder, $selects);
 
-        $queryBuilder->limit($limit);
-
-        return $queryBuilder->getMultipleResults();
+        return $queryBuilder;
     }
 
     public function findOneByCriteria(
@@ -48,6 +58,11 @@ abstract class AbstractBaseRepository implements BaseRepositoryInterface
              ->addSelects($queryBuilder, $selects);
 
         return $queryBuilder->getSingleResult();
+    }
+
+    public function countByCriteria(array $criteria = []): int
+    {
+
     }
 
     public function exists(array $criteria): bool
