@@ -10,6 +10,14 @@ trait SanitizeCriteriaTrait
             unset($criteria['format']);
         }
 
+        if (array_key_exists('page', $criteria)) {
+            unset($criteria['page']);
+        }
+
+        if (array_key_exists('nbPerPage', $criteria)) {
+            unset($criteria['nbPerPage']);
+        }
+
         return $criteria;
     }
 }
