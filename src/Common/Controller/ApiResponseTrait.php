@@ -2,6 +2,7 @@
 
 namespace COL\Library\Infrastructure\Common\Controller;
 
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,5 +28,33 @@ trait ApiResponseTrait
         }
 
         return new JsonResponse($data, Response::HTTP_OK);
+    }
+
+    protected function getFormErrorResponse(FormInterface $form): JsonResponse
+    {
+        return new JsonResponse($this->getFormErrorsAsFormattedArray($form), Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    private function getFormErrorsAsFormattedArray(FormInterface $form, int $level = 0)
+    {
+        $errors = [];
+
+        foreach ($form->getErrors() as $error) {
+            if (0 === $level) {
+                $errors['global'][] = $error->getMessage();
+            } else {
+                $errors[] = $error->getMessage();
+            }
+        }
+
+        $fields = $form->all();
+        foreach ($fields as $key => $child) {
+            $error = $this->getFormErrorsAsFormattedArray($child, $level + 4);
+            if ($error) {
+                $errors[$key] = $error;
+            }
+        }
+
+        return $errors;
     }
 }
