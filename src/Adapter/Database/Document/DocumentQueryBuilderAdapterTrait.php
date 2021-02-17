@@ -57,14 +57,9 @@ trait DocumentQueryBuilderAdapterTrait
         return 0 < $this->queryBuilder->getQuery()->execute();
     }
 
-    public function addWhere(string $condition, string $parameterField, $parameterValue): void
-    {
-        // TODO: Implement addWhere() method.
-    }
-
     public function addCount(string $objectAlias, string $fieldName): void
     {
-        // TODO: Implement addCount() method.
+        $this->queryBuilder->count();
     }
 
     public function pagination(int $pageNumber, int $nbPerPage): void
@@ -74,6 +69,6 @@ trait DocumentQueryBuilderAdapterTrait
 
     public function getCountResult(): int
     {
-        // TODO: Implement getCountResult() method.
+        return $this->queryBuilder->getQuery()->getSingleResult();
     }
 }

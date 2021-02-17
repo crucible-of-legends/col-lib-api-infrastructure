@@ -6,8 +6,6 @@ use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 
 interface QueryBuilderAdapterInterface
 {
-    public function addWhere(string $condition, string $parameterField, $parameterValue): void;
-
     public function addCount(string $objectAlias, string $fieldName): void;
 
     public function pagination(int $pageNumber, int $nbPerPage): void;
