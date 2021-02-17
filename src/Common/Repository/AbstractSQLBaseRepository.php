@@ -62,22 +62,4 @@ abstract class AbstractSQLBaseRepository extends AbstractBaseRepository
 
         return [$condition, $parameterField, $parameterValue];
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //                                        COMMON CRITERIA
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public function addCriterionId(QueryBuilderAdapterInterface $queryBuilder, $id): bool
-    {
-        return $this->addCriterion($queryBuilder, 'id', $id);
-    }
-
-    public function addCriterionExcludedStatus(QueryBuilderAdapterInterface $queryBuilder, $excludedStatus): bool
-    {
-        return $this->addCriterion($queryBuilder, 'status', $excludedStatus, $this->getAlias(),true);
-    }
-
-    public function addCriterionStatus(QueryBuilderAdapterInterface $queryBuilder, $status): bool
-    {
-        return $this->addCriterion($queryBuilder, 'status', $status);
-    }
 }
