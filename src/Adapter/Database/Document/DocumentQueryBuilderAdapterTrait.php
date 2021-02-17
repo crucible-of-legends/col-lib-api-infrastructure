@@ -64,7 +64,8 @@ trait DocumentQueryBuilderAdapterTrait
 
     public function pagination(int $pageNumber, int $nbPerPage): void
     {
-        // TODO: Implement pagination() method.
+        $this->queryBuilder->limit($nbPerPage)
+                           ->skip($nbPerPage*($pageNumber-1));
     }
 
     public function getCountResult(): int
