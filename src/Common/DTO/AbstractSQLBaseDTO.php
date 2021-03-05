@@ -6,7 +6,7 @@ use DateTimeInterface;
 
 abstract class AbstractSQLBaseDTO implements BaseDTOInterface
 {
-    protected ?int $id;
+    protected ?int $id = null;
     protected string $status;
     protected ?DateTimeInterface $deletedDate;
 
@@ -15,7 +15,7 @@ abstract class AbstractSQLBaseDTO implements BaseDTOInterface
         return $this->id;
     }
 
-        public function isNew(): bool
+    public function isNew(): bool
     {
         return $this->id === null;
     }

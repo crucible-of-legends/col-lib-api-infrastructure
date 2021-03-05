@@ -6,7 +6,7 @@ use DateTimeInterface;
 
 abstract class AbstractDocumentBaseDTO implements BaseDTOInterface
 {
-    protected ?string $id;
+    protected ?string $id = null;
     protected string $status;
     protected ?DateTimeInterface $deletedDate;
 
