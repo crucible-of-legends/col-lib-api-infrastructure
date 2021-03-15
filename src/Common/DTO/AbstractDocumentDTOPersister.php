@@ -34,7 +34,7 @@ abstract class AbstractDocumentDTOPersister
         }
 
         $dto->setStatus(BaseDTOInterface::STATUS_DELETED);
-        $dto->getDeletedDate($this->clock->now());
+        $dto->setDeletedDate($this->clock->now());
 
         $this->objectManager->flush();
 
