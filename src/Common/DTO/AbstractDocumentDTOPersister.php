@@ -27,13 +27,17 @@ abstract class AbstractDocumentDTOPersister
         return $dto;
     }
 
-    protected function softDelete(AbstractDocumentBaseDTO $dto): AbstractDocumentBaseDTO
+    protected function softDelete(AbstractDocumentBaseDTO $dto): bool
     {
+        if (BaseDTOInterface::STATUS_DELETED === $dto->getStatus()) {
+            return false;
+        }
+
         $dto->setStatus(BaseDTOInterface::STATUS_DELETED);
         $dto->getDeletedDate($this->clock->now());
 
         $this->objectManager->flush();
 
-        return $dto;
+        return true;
     }
 }
