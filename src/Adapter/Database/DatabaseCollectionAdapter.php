@@ -1,6 +1,6 @@
 <?php
 
-namespace COL\Library\Infrastructure\Adapter\Database\SQL;
+namespace COL\Library\Infrastructure\Adapter\Database;
 
 final class DatabaseCollectionAdapter
 {
@@ -10,6 +10,6 @@ final class DatabaseCollectionAdapter
             return $items->toArray();
         }
 
-        return $items;
+        return $items ?? [];
     }
 }
