@@ -3,6 +3,7 @@
 namespace COL\Library\Infrastructure\Common\View;
 
 use COL\Library\Contracts\View\Model\BaseViewModelInterface;
+use COL\Library\Contracts\View\Wrapper\MultipleViewModelWrapper;
 use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 use COL\Library\Infrastructure\Common\Registry\DisplayFormatRegistry;
 
@@ -22,7 +23,7 @@ interface MultipleObjectViewPresenterInterface
         ?int $nbTotal = null,
         ?int $pageNumber = null,
         ?int $nbPerPage = null
-    ): array;
+    ): MultipleViewModelWrapper;
 
     public function buildVueModelSmallFormat(BaseDTOInterface $baseDTO): BaseViewModelInterface;
 

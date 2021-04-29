@@ -2,23 +2,24 @@
 
 namespace COL\Library\Infrastructure\Common\View;
 
-use COL\Library\Contracts\View\Model\BaseViewModelInterface;
+use COL\Library\Contracts\View\Wrapper\MultipleViewModelWrapper;
 use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 use COL\Library\Infrastructure\Common\Registry\DisplayFormatRegistry;
+use COL\Library\Infrastructure\Common\View\ViewDecorator\PaginationViewDecorator;
 
 abstract class AbstractMultipleObjectViewPresenter implements MultipleObjectViewPresenterInterface
 {
+    protected PaginationViewDecorator $paginationDecorator;
     protected array $displayFormats;
 
-    public function __construct(array $displayFormats = [])
+    public function __construct(PaginationViewDecorator $paginationDecorator, array $displayFormats = [])
     {
+        $this->paginationDecorator = $paginationDecorator;
         $this->displayFormats = $displayFormats;
     }
 
     /**
      * @param BaseDTOInterface[] $dtos
-     *
-     * @return BaseViewModelInterface[]
      */
     public function buildMultipleObjectVueModel(
         array $dtos,
@@ -26,7 +27,7 @@ abstract class AbstractMultipleObjectViewPresenter implements MultipleObjectView
         ?int $nbTotal = null,
         ?int $pageNumber = null,
         ?int $nbPerPage = null
-    ): array
+    ): MultipleViewModelWrapper
     {
         $models = [];
         foreach ($dtos as $dto) {
@@ -47,21 +48,16 @@ abstract class AbstractMultipleObjectViewPresenter implements MultipleObjectView
             $nbPerPage = self::DEFAULT_NB_PER_PAGE;
         }
 
-        return $this->formatWithPagination($models, $nbTotal, $pageNumber, $nbPerPage);
+        return $this->wrap($models, $nbTotal, $pageNumber, $nbPerPage);
     }
 
-    protected function formatWithPagination(array $models, ?int $nbTotal, ?int $pageNumber, ?int $nbPerPage): array
+    private function wrap(array $models, ?int $nbTotal, ?int $pageNumber, ?int $nbPerPage): MultipleViewModelWrapper
     {
-        $lastPage = floor($nbTotal / $nbPerPage);
+        $wrapper = new MultipleViewModelWrapper();
 
-        return [
-            'data' => $models,
-            'pagination' => [
-                'nbObjects' => $nbTotal,
-                'currentPage' => $pageNumber,
-                'lastPage' => 0 == $lastPage ? 1 : $lastPage,
-                'nbPerPage' => $nbPerPage
-            ]
-        ];
+        $wrapper->data = $models;
+        $wrapper->pagination = $this->paginationDecorator->decorate($nbTotal, $pageNumber, $nbPerPage);
+
+        return $wrapper;
     }
 }
