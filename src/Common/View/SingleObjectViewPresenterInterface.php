@@ -8,11 +8,11 @@ use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 
 interface SingleObjectViewPresenterInterface
 {
-    public function buildSingleObjectVueModel(BaseDTOInterface $dto, ?string $displayFormat = null): SingleViewModelWrapper;
+    public function buildSingleObjectVueModel(?BaseDTOInterface $dto, ?string $displayFormat = null): ?SingleViewModelWrapper;
 
-    public function buildVueModelSmallFormat(BaseDTOInterface $baseDTO): BaseViewModelInterface;
+    public function buildVueModelSmallFormat(?BaseDTOInterface $baseDTO): ?BaseViewModelInterface;
 
-    public function buildVueModelMediumFormat(BaseDTOInterface $baseDTO): BaseViewModelInterface;
+    public function buildVueModelMediumFormat(?BaseDTOInterface $baseDTO): ?BaseViewModelInterface;
 
-    public function buildVueModelLargeFormat(BaseDTOInterface $baseDTO): BaseViewModelInterface;
+    public function buildVueModelLargeFormat(?BaseDTOInterface $baseDTO): ?BaseViewModelInterface;
 }
