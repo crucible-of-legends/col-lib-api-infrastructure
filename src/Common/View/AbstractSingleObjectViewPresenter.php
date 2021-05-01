@@ -24,7 +24,10 @@ abstract class AbstractSingleObjectViewPresenter implements SingleObjectViewPres
         ?BaseDTOInterface $dto,
         ?string $displayFormat = DisplayFormatRegistry::DISPLAY_FORMAT_SMALL
     ): SingleViewModelWrapper {
-        $model = null;
+        if (null === $dto) {
+            return $this->wrap(null);
+        }
+
         if (DisplayFormatRegistry::DISPLAY_FORMAT_LARGE === $displayFormat) {
             $model = $this->buildVueModelLargeFormat($dto);
         } elseif(DisplayFormatRegistry::DISPLAY_FORMAT_MEDIUM === $displayFormat) {
