@@ -39,17 +39,17 @@ abstract class AbstractSingleObjectViewPresenter implements SingleObjectViewPres
         return $this->wrap($model);
     }
 
-    public function buildVueModelSmallFormat(?BaseDTOInterface $baseDTO): ?BaseViewModelInterface
+    public function buildVueModelSmallFormat(BaseDTOInterface $baseDTO): BaseViewModelInterface
     {
         throw new NotImplementedException(get_class($this), "buildVueModelSmallFormat");
     }
 
-    public function buildVueModelMediumFormat(?BaseDTOInterface $baseDTO): ?BaseViewModelInterface
+    public function buildVueModelMediumFormat(BaseDTOInterface $baseDTO): BaseViewModelInterface
     {
         throw new NotImplementedException(get_class($this), "buildVueModelSmallFormat");
     }
 
-    public function buildVueModelLargeFormat(?BaseDTOInterface $baseDTO): ?BaseViewModelInterface
+    public function buildVueModelLargeFormat(BaseDTOInterface $baseDTO): BaseViewModelInterface
     {
         throw new NotImplementedException(get_class($this), "buildVueModelSmallFormat");
     }
