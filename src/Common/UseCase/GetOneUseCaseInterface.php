@@ -4,7 +4,7 @@ namespace COL\Library\Infrastructure\Common\UseCase;
 
 use COL\Library\Contracts\View\Wrapper\SingleViewModelWrapper;
 
-interface GetSingleUseCaseInterface
+interface GetOneUseCaseInterface
 {
     /**
      * @param string|int      $id
