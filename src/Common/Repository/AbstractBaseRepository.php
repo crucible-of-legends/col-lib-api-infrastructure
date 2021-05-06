@@ -41,7 +41,7 @@ abstract class AbstractBaseRepository implements BaseRepositoryInterface
         array $orders = []
     ): QueryBuilderAdapterInterface
     {
-        $queryBuilder = $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), '');
+        $queryBuilder = $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), $this->getAlias());
         $this->addCriteria($queryBuilder, $this->addGenericCriteria($criteria))
              ->addOrderBys($queryBuilder, $orders)
              ->addSelects($queryBuilder, $selects);
@@ -54,7 +54,7 @@ abstract class AbstractBaseRepository implements BaseRepositoryInterface
         array $selects = []
     ): ?BaseDTOInterface
     {
-        $queryBuilder = $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), '');
+        $queryBuilder = $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), $this->getAlias());
         $this->addCriteria($queryBuilder, $criteria)
              ->addSelects($queryBuilder, $selects);
 
@@ -63,7 +63,7 @@ abstract class AbstractBaseRepository implements BaseRepositoryInterface
 
     public function countByCriteria(array $criteria = []): int
     {
-        $queryBuilder = $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), '');
+        $queryBuilder = $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), $this->getAlias());
         $queryBuilder->addCount($this->getAlias(), 'id');
         $this->addCriteria($queryBuilder, $this->addGenericCriteria($criteria));
 
@@ -72,7 +72,7 @@ abstract class AbstractBaseRepository implements BaseRepositoryInterface
 
     public function exists(array $criteria): bool
     {
-        $queryBuilder = $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), '');
+        $queryBuilder = $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), $this->getAlias());
         $this->addCriteria($queryBuilder, $criteria);
 
         return $queryBuilder->exists();
