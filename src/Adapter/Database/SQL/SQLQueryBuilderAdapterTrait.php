@@ -33,6 +33,11 @@ trait SQLQueryBuilderAdapterTrait
         $this->queryBuilder->setMaxResults($pageNumber*$nbPerPage);
     }
 
+    public function limit(int $limit): void
+    {
+        $this->queryBuilder->setMaxResults($limit);
+    }
+
     public function addOrderBy(string $fieldName, string $direction = 'ASC'): void
     {
         $this->queryBuilder->addOrderBy($fieldName, 'ASC' === $direction ? 0 : 1);
