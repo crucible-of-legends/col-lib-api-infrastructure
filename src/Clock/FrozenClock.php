@@ -2,9 +2,10 @@
 
 namespace COL\Library\Infrastructure\Clock;
 
+use COL\Librairy\BaseContracts\Infrastructure\Clock\ClockInterface;
 use DateTimeImmutable;
 
-class FrozenClock implements ClockInterface
+final class FrozenClock implements ClockInterface
 {
     private DateTimeImmutable $now;
 

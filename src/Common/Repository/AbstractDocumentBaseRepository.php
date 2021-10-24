@@ -2,12 +2,10 @@
 
 namespace COL\Library\Infrastructure\Common\Repository;
 
-use COL\Library\Infrastructure\Adapter\Database\QueryBuilderAdapterInterface;
+use COL\Librairy\BaseContracts\Infrastructure\Adatper\Database\QueryBuilderAdapterInterface;
 
 abstract class AbstractDocumentBaseRepository extends AbstractBaseRepository
 {
-    abstract protected function getDTOClassName(): string;
-
     protected function addCriterion(QueryBuilderAdapterInterface $queryBuilder, string $fieldName, $value, bool $exclude = false): bool
     {
         if (null === $value) {

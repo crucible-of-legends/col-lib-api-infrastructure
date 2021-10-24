@@ -2,11 +2,12 @@
 
 namespace COL\Library\Infrastructure\Adapter\Database\SQL;
 
-use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
+use COL\Librairy\BaseContracts\Domain\DataInteractor\DTO\DTOInterface;
+use COL\Librairy\BaseContracts\Domain\Registry\DTOStatusRegistry;
 
 trait SQLQueryBuilderAdapterTrait
 {
-    public function addWhere(string $condition, string $parameterField, $parameterValue): void
+    public function addWhere(string $condition, ?string $parameterField, $parameterValue): void
     {
         $this->queryBuilder->andWhere($condition);
         if (null !== $parameterField) {
@@ -18,7 +19,7 @@ trait SQLQueryBuilderAdapterTrait
     {
         $joinedObjectAlias = $objectAlias . '_' . $fieldName;
 
-        $this->queryBuilder->leftJoin($objectAlias . '.' . $fieldName, $joinedObjectAlias, $joinedObjectAlias . '.status != ' . BaseDTOInterface::STATUS_DELETED)
+        $this->queryBuilder->leftJoin($objectAlias . '.' . $fieldName, $joinedObjectAlias, $joinedObjectAlias . '.status != ' . DTOStatusRegistry::STATUS_DELETED)
                            ->addSelect($joinedObjectAlias);
     }
 
@@ -44,7 +45,7 @@ trait SQLQueryBuilderAdapterTrait
     }
 
     /**
-     * @return BaseDTOInterface[]
+     * @return DTOInterface[]
      */
     public function getMultipleResults(): array
     {
@@ -53,7 +54,7 @@ trait SQLQueryBuilderAdapterTrait
         return null === $result ? [] : $result;
     }
 
-    public function getSingleResult(): ?BaseDTOInterface
+    public function getSingleResult(): ?DTOInterface
     {
         return $this->queryBuilder->getQuery()->getOneOrNullResult();
     }

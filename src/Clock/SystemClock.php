@@ -2,11 +2,12 @@
 
 namespace COL\Library\Infrastructure\Clock;
 
+use COL\Librairy\BaseContracts\Infrastructure\Clock\ClockInterface;
 use DateTimeImmutable;
 use DateTimeZone;
 use Exception;
 
-class SystemClock implements ClockInterface
+final class SystemClock implements ClockInterface
 {
     private DateTimeZone $timezone;
 

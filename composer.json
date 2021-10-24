@@ -11,16 +11,26 @@
     }
   },
   "require": {
-    "php": ">=7.4",
+    "php": ">=8.0",
     "ext-json": "*",
+    "crucible-of-legends/col-lib-base-contracts": "1.x-dev",
     "crucible-of-legends/col-lib-api-contracts": "1.x-dev",
     "symfony/http-foundation": "^5.1",
     "doctrine/persistence": "^2.1"
   },
   "require-dev": {
-    "phpunit/phpunit": "^7.5"
+    "phpunit/phpunit": "^9.5.10",
+    "friendsofphp/php-cs-fixer": "~3.1.0",
+    "php-parallel-lint/php-parallel-lint": "^1.2",
+    "phpro/grumphp": "^1.3.1",
+    "phpstan/phpstan": "^0.12.25",
+    "roave/security-advisories": "dev-master"
   },
   "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/crucible-of-legends/col-lib-base-contracts"
+    },
     {
       "type": "vcs",
       "url": "https://github.com/crucible-of-legends/col-lib-api-contracts"

@@ -2,11 +2,14 @@
 
 namespace COL\Library\Infrastructure\Common\Repository;
 
+use COL\Librairy\BaseContracts\Domain\DataInteractor\DTO\DTOInterface;
+use COL\Librairy\BaseContracts\Domain\Registry\DTOStatusRegistry;
+use COL\Librairy\BaseContracts\Domain\Registry\OrderDirectionRegistry;
+use COL\Librairy\BaseContracts\Domain\Repository\RepositoryInterface;
+use COL\Librairy\BaseContracts\Infrastructure\Adatper\Database\QueryBuilderAdapterInterface;
 use COL\Library\Infrastructure\Adapter\Database\DatabaseAdapterInterface;
-use COL\Library\Infrastructure\Adapter\Database\QueryBuilderAdapterInterface;
-use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
 
-abstract class AbstractBaseRepository implements BaseRepositoryInterface
+abstract class AbstractBaseRepository implements RepositoryInterface
 {
     private DatabaseAdapterInterface $databaseAdapter;
     private ?string $dtoAlias = null;
@@ -16,10 +19,8 @@ abstract class AbstractBaseRepository implements BaseRepositoryInterface
         $this->databaseAdapter = $databaseAdapter;
     }
 
-    abstract protected function getDTOClassName(): string;
-
     /**
-     * @return BaseDTOInterface[]
+     * @return DTOInterface[]
      */
     public function findManyByCriteria(
         array $criteria = [],
@@ -52,7 +53,7 @@ abstract class AbstractBaseRepository implements BaseRepositoryInterface
     public function findOneByCriteria(
         array $criteria,
         array $selects = []
-    ): ?BaseDTOInterface
+    ): ?DTOInterface
     {
         $queryBuilder = $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), $this->getAlias());
         $this->addCriteria($queryBuilder, $criteria)
@@ -131,7 +132,7 @@ abstract class AbstractBaseRepository implements BaseRepositoryInterface
 
     protected function addOrderBy(QueryBuilderAdapterInterface $queryBuilder, $fieldName, $direction): void
     {
-        if (false === in_array($direction, [self::ORDER_DIRECTION_DESC, self::ORDER_DIRECTION_ASC], true)) {
+        if (false === in_array($direction, [OrderDirectionRegistry::ORDER_DIRECTION_DESC, OrderDirectionRegistry::ORDER_DIRECTION_ASC], true)) {
             throw new \LogicException("$direction is not a valid value for order by 'direction' parameter.");
         }
 
@@ -143,7 +144,7 @@ abstract class AbstractBaseRepository implements BaseRepositoryInterface
         if (false === isset($criteria['status']) && property_exists($this->getDTOClassName(), 'status')) {
             $excludedStatus             = isset($criteria['excludedStatus']) ?? $criteria['excludedStatus'];
             $excludedStatus             = is_array($excludedStatus) ? $excludedStatus : [$excludedStatus];
-            $criteria['excludedStatus'] = array_merge([BaseDTOInterface::STATUS_DELETED], $excludedStatus);
+            $criteria['excludedStatus'] = array_merge([DTOStatusRegistry::STATUS_DELETED], $excludedStatus);
         }
         return $criteria;
     }

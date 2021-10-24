@@ -2,13 +2,13 @@
 
 namespace COL\Library\Infrastructure\Adapter\Database\Document;
 
-use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
+use COL\Librairy\BaseContracts\Domain\DataInteractor\DTO\DTOInterface;
 
 trait DocumentQueryBuilderAdapterTrait
 {
     public function equals(string $fieldName, $value): void
     {
-        if ($value instanceof BaseDTOInterface) {
+        if ($value instanceof DTOInterface) {
             $this->queryBuilder->field($fieldName)->references($value);
         } else {
             $this->queryBuilder->field($fieldName)->equals($value);
@@ -38,7 +38,7 @@ trait DocumentQueryBuilderAdapterTrait
     }
 
     /**
-     * @return BaseDTOInterface[]
+     * @return DTOInterface[]
      */
     public function getMultipleResults(): array
     {
@@ -48,9 +48,9 @@ trait DocumentQueryBuilderAdapterTrait
     }
 
     /**
-     * @return BaseDTOInterface|null|object
+     * @return DTOInterface|null|object
      */
-    public function getSingleResult(): ?BaseDTOInterface
+    public function getSingleResult(): ?DTOInterface
     {
         return $this->queryBuilder->getQuery()->getSingleResult();
     }

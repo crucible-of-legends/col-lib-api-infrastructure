@@ -2,7 +2,8 @@
 
 namespace COL\Library\Infrastructure\Adapter\Database;
 
-use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
+use COL\Librairy\BaseContracts\Domain\DataInteractor\DTO\DTOInterface;
+use COL\Librairy\BaseContracts\Infrastructure\Adatper\Database\QueryBuilderAdapterInterface;
 
 interface DatabaseAdapterInterface
 {
@@ -10,7 +11,7 @@ interface DatabaseAdapterInterface
 
     public function flush(): void;
 
-    public function delete(BaseDTOInterface $dto): void;
+    public function delete(DTOInterface $dto): void;
 
-    public function persist(BaseDTOInterface $dto): void;
+    public function persist(DTOInterface $dto): void;
 }
