@@ -17,21 +17,21 @@ trait SQLQueryBuilderAdapterTrait
 
     public function addSelect(string $objectAlias, string $fieldName): void
     {
-        $joinedObjectAlias = $objectAlias . '_' . $fieldName;
+        $joinedObjectAlias = $objectAlias.'_'.$fieldName;
 
-        $this->queryBuilder->leftJoin($objectAlias . '.' . $fieldName, $joinedObjectAlias, $joinedObjectAlias . '.status != ' . DTOStatusRegistry::STATUS_DELETED)
-                           ->addSelect($joinedObjectAlias);
+        $this->queryBuilder->leftJoin($objectAlias.'.'.$fieldName, $joinedObjectAlias, $joinedObjectAlias.'.status != '.DTOStatusRegistry::STATUS_DELETED)
+            ->addSelect($joinedObjectAlias);
     }
 
     public function addCount(string $objectAlias, string $fieldName): void
     {
-        $this->queryBuilder->select("COUNT($objectAlias.$fieldName)");
+        $this->queryBuilder->select("COUNT({$objectAlias}.{$fieldName})");
     }
 
     public function pagination(int $pageNumber, int $nbPerPage): void
     {
-        $this->queryBuilder->setFirstResult(($pageNumber-1)*$nbPerPage);
-        $this->queryBuilder->setMaxResults($pageNumber*$nbPerPage);
+        $this->queryBuilder->setFirstResult(($pageNumber - 1) * $nbPerPage);
+        $this->queryBuilder->setMaxResults($pageNumber * $nbPerPage);
     }
 
     public function limit(int $limit): void
@@ -73,16 +73,16 @@ trait SQLQueryBuilderAdapterTrait
 
     public function cleanQueryBuilder(): void
     {
-        $this->cleanQueryBuilderDqlPart( 'join');
-        $this->cleanQueryBuilderDqlPart( 'select');
+        $this->cleanQueryBuilderDqlPart('join');
+        $this->cleanQueryBuilderDqlPart('select');
     }
 
     /**
-     * @param string       $dqlPartName ('join', 'select', ...)
+     * @param string $dqlPartName ('join', 'select', ...)
      */
     public function cleanQueryBuilderDqlPart(string $dqlPartName)
     {
-        $dqlPart    = $this->queryBuilder->getDQLPart($dqlPartName);
+        $dqlPart = $this->queryBuilder->getDQLPart($dqlPartName);
         $newDqlPart = [];
         if (0 === count($dqlPart)) {
             return;
@@ -91,6 +91,7 @@ trait SQLQueryBuilderAdapterTrait
         $this->queryBuilder->resetDQLPart($dqlPartName);
         if ('join' === $dqlPartName) {
             $this->cleanJoinFromQuery($dqlPart, $dqlPartName, $newDqlPart);
+
             return;
         }
         foreach ($dqlPart as $element) {
@@ -109,7 +110,7 @@ trait SQLQueryBuilderAdapterTrait
                 preg_match(
                     '/^(?P<joinType>[^ ]+) JOIN (?P<join>[^ ]+) (?P<alias>[^ ]+)/',
                     $element->__toString(),
-                    $matches
+                    $matches,
                 );
                 if (false === array_key_exists($matches['alias'], $newDqlPart)) {
                     $newDqlPart[$matches['alias']] = $element;

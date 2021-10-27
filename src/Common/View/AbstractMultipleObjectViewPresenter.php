@@ -2,38 +2,36 @@
 
 namespace COL\Library\Infrastructure\Common\View;
 
-use COL\Library\Contracts\View\Wrapper\MultipleViewModelWrapper;
-use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
+use COL\Librairy\BaseContracts\Domain\DataInteractor\DTO\DTOInterface;
+use COL\Librairy\BaseContracts\Domain\View\Presenter\MultipleObjectViewPresenterInterface;
+use COL\Library\ApiContracts\Domain\View\Wrapper\MultipleViewModelWrapper;
 use COL\Library\Infrastructure\Common\Registry\DisplayFormatRegistry;
 use COL\Library\Infrastructure\Common\View\ViewDecorator\PaginationViewDecorator;
 
 abstract class AbstractMultipleObjectViewPresenter implements MultipleObjectViewPresenterInterface
 {
-    protected PaginationViewDecorator $paginationDecorator;
-    protected array $displayFormats;
+    private const DEFAULT_PAGE_NUMBER = 1;
+    private const DEFAULT_NB_PER_PAGE = 20;
 
-    public function __construct(PaginationViewDecorator $paginationDecorator, array $displayFormats = [])
+    public function __construct(private PaginationViewDecorator $paginationDecorator)
     {
-        $this->paginationDecorator = $paginationDecorator;
-        $this->displayFormats = $displayFormats;
     }
 
     /**
-     * @param BaseDTOInterface[] $dtos
+     * @param DTOInterface[] $dtos
      */
     public function buildMultipleObjectVueModel(
         array $dtos,
         string $displayFormat = DisplayFormatRegistry::DISPLAY_FORMAT_SMALL,
         ?int $nbTotal = null,
         ?int $pageNumber = null,
-        ?int $nbPerPage = null
-    ): MultipleViewModelWrapper
-    {
+        ?int $nbPerPage = null,
+    ): MultipleViewModelWrapper {
         $models = [];
         foreach ($dtos as $dto) {
             if (DisplayFormatRegistry::DISPLAY_FORMAT_LARGE === $displayFormat) {
                 $models[] = $this->buildVueModelLargeFormat($dto);
-            } elseif(DisplayFormatRegistry::DISPLAY_FORMAT_MEDIUM === $displayFormat) {
+            } elseif (DisplayFormatRegistry::DISPLAY_FORMAT_MEDIUM === $displayFormat) {
                 $models[] = $this->buildVueModelMediumFormat($dto);
             } else {
                 $models[] = $this->buildVueModelSmallFormat($dto);

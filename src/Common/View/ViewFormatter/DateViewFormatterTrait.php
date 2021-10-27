@@ -2,9 +2,11 @@
 
 namespace COL\Library\Infrastructure\Common\View\ViewFormatter;
 
+use DateTimeInterface;
+
 trait DateViewFormatterTrait
 {
-    protected function dateTimeString(?\DateTimeInterface $dateTime): string
+    protected function dateTimeString(?DateTimeInterface $dateTime): string
     {
         if (null === $dateTime) {
             return '';
@@ -13,7 +15,7 @@ trait DateViewFormatterTrait
         return $dateTime->format($this->displayFormats['datetime']);
     }
 
-    protected function dateString(?\DateTimeInterface $dateTime): string
+    protected function dateString(?DateTimeInterface $dateTime): string
     {
         if (null === $dateTime) {
             return '';

@@ -2,9 +2,10 @@
 
 namespace COL\Library\Infrastructure\Common\DTO;
 
+use COL\Librairy\BaseContracts\Domain\DataInteractor\DTO\DTOInterface;
 use DateTimeInterface;
 
-abstract class AbstractDocumentBaseDTO implements BaseDTOInterface
+abstract class AbstractDocumentBaseDTO implements DTOInterface
 {
     protected ?string $id = null;
     protected string $status;
@@ -17,7 +18,7 @@ abstract class AbstractDocumentBaseDTO implements BaseDTOInterface
 
     public function isNew(): bool
     {
-        return $this->id === null;
+        return null === $this->id;
     }
 
     public function getStatus(): string

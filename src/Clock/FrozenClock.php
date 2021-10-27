@@ -7,11 +7,8 @@ use DateTimeImmutable;
 
 final class FrozenClock implements ClockInterface
 {
-    private DateTimeImmutable $now;
-
-    public function __construct(DateTimeImmutable $now)
+    public function __construct(private DateTimeImmutable $now)
     {
-        $this->now = $now;
     }
 
     public function setTo(DateTimeImmutable $now): void

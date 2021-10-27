@@ -2,18 +2,15 @@
 
 namespace COL\Library\Infrastructure\Common\DTO;
 
-use COL\Library\Infrastructure\Clock\ClockInterface;
+use COL\Librairy\BaseContracts\Domain\DataInteractor\DTOPersister\DTOPersisterInterface;
+use COL\Librairy\BaseContracts\Domain\Registry\DTOStatusRegistry;
+use COL\Librairy\BaseContracts\Infrastructure\Clock\ClockInterface;
 use Doctrine\Persistence\ObjectManager;
 
-abstract class AbstractDocumentDTOPersister
+abstract class AbstractDocumentDTOPersister implements DTOPersisterInterface
 {
-    protected ObjectManager $objectManager;
-    protected ClockInterface $clock;
-
-    public function __construct(ObjectManager $objectManager, ClockInterface $clock)
+    public function __construct(private ObjectManager $objectManager, private ClockInterface $clock)
     {
-        $this->objectManager = $objectManager;
-        $this->clock = $clock;
     }
 
     protected function saveDto(AbstractDocumentBaseDTO $dto): AbstractDocumentBaseDTO
@@ -29,11 +26,11 @@ abstract class AbstractDocumentDTOPersister
 
     protected function softDelete(AbstractDocumentBaseDTO $dto): bool
     {
-        if (BaseDTOInterface::STATUS_DELETED === $dto->getStatus()) {
+        if (DTOStatusRegistry::STATUS_DELETED === $dto->getStatus()) {
             return false;
         }
 
-        $dto->setStatus(BaseDTOInterface::STATUS_DELETED);
+        $dto->setStatus(DTOStatusRegistry::STATUS_DELETED);
         $dto->setDeletedDate($this->clock->now());
 
         $this->objectManager->flush();

@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class RequestAdapter
 {
-    private string $method; # read only
+    private string $method; // read only
     private array $headers;
     private array $queryParameters;
     private array $bodyParameters;

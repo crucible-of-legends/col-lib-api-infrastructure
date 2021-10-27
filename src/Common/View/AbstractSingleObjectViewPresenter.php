@@ -2,27 +2,23 @@
 
 namespace COL\Library\Infrastructure\Common\View;
 
-use COL\Library\Contracts\View\Model\BaseViewModelInterface;
-use COL\Library\Contracts\View\Wrapper\SingleViewModelWrapper;
-use COL\Library\Infrastructure\Common\DTO\BaseDTOInterface;
+use COL\Librairy\BaseContracts\Domain\DataInteractor\DTO\DTOInterface;
+use COL\Librairy\BaseContracts\Domain\View\Model\ViewModelInterface;
+use COL\Librairy\BaseContracts\Domain\View\Presenter\SingleObjectViewPresenterInterface;
+use COL\Library\ApiContracts\Domain\View\Wrapper\SingleViewModelWrapper;
 use COL\Library\Infrastructure\Common\Exception\NotImplementedException;
 use COL\Library\Infrastructure\Common\Registry\DisplayFormatRegistry;
 use COL\Library\Infrastructure\Common\View\ViewDecorator\ErrorViewDecorator;
 
 abstract class AbstractSingleObjectViewPresenter implements SingleObjectViewPresenterInterface
 {
-    protected ErrorViewDecorator $errorDecorator;
-    protected array $displayFormats;
-
-    public function __construct(ErrorViewDecorator $errorDecorator, array $displayFormats = [])
+    public function __construct(private ErrorViewDecorator $errorDecorator)
     {
-        $this->errorDecorator = $errorDecorator;
-        $this->displayFormats = $displayFormats;
     }
 
     public function buildSingleObjectVueModel(
-        ?BaseDTOInterface $dto,
-        ?string $displayFormat = DisplayFormatRegistry::DISPLAY_FORMAT_SMALL
+        ?DTOInterface $dto,
+        ?string $displayFormat = DisplayFormatRegistry::DISPLAY_FORMAT_SMALL,
     ): SingleViewModelWrapper {
         if (null === $dto) {
             return $this->wrap(null);
@@ -30,7 +26,7 @@ abstract class AbstractSingleObjectViewPresenter implements SingleObjectViewPres
 
         if (DisplayFormatRegistry::DISPLAY_FORMAT_LARGE === $displayFormat) {
             $model = $this->buildVueModelLargeFormat($dto);
-        } elseif(DisplayFormatRegistry::DISPLAY_FORMAT_MEDIUM === $displayFormat) {
+        } elseif (DisplayFormatRegistry::DISPLAY_FORMAT_MEDIUM === $displayFormat) {
             $model = $this->buildVueModelMediumFormat($dto);
         } else {
             $model = $this->buildVueModelSmallFormat($dto);
@@ -39,22 +35,22 @@ abstract class AbstractSingleObjectViewPresenter implements SingleObjectViewPres
         return $this->wrap($model);
     }
 
-    public function buildVueModelSmallFormat(BaseDTOInterface $baseDTO): BaseViewModelInterface
+    public function buildVueModelSmallFormat(DTOInterface $baseDTO): ViewModelInterface
     {
-        throw new NotImplementedException(get_class($this), "buildVueModelSmallFormat");
+        throw new NotImplementedException(get_class($this), 'buildVueModelSmallFormat');
     }
 
-    public function buildVueModelMediumFormat(BaseDTOInterface $baseDTO): BaseViewModelInterface
+    public function buildVueModelMediumFormat(DTOInterface $baseDTO): ViewModelInterface
     {
-        throw new NotImplementedException(get_class($this), "buildVueModelSmallFormat");
+        throw new NotImplementedException(get_class($this), 'buildVueModelSmallFormat');
     }
 
-    public function buildVueModelLargeFormat(BaseDTOInterface $baseDTO): BaseViewModelInterface
+    public function buildVueModelLargeFormat(DTOInterface $baseDTO): ViewModelInterface
     {
-        throw new NotImplementedException(get_class($this), "buildVueModelSmallFormat");
+        throw new NotImplementedException(get_class($this), 'buildVueModelSmallFormat');
     }
 
-    private function wrap(?BaseViewModelInterface $model): SingleViewModelWrapper
+    private function wrap(?ViewModelInterface $model): SingleViewModelWrapper
     {
         $wrapper = new SingleViewModelWrapper();
 

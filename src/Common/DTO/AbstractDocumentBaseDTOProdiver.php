@@ -2,24 +2,23 @@
 
 namespace COL\Library\Infrastructure\Common\DTO;
 
+use COL\Librairy\BaseContracts\Domain\DataInteractor\DTO\DTOInterface;
+use COL\Librairy\BaseContracts\Domain\DataInteractor\DTOProvider\DTOProviderInterface;
 use COL\Library\Infrastructure\Common\Repository\AbstractDocumentBaseRepository;
 
-abstract class AbstractDocumentBaseDTOProdiver
+abstract class AbstractDocumentBaseDTOProdiver implements DTOProviderInterface
 {
     protected AbstractDocumentBaseRepository $repository;
 
     /**
-     * @return BaseDTOInterface[]
+     * @return DTOInterface[]
      */
     public function getManyByCriteria(array $critieria = [], array $selects = [], array $orders = [], ?int $pageNumber = null, ?int $nbPerPage = null): array
     {
         return $this->getRepository()->findManyByCriteria($critieria, $selects, $orders, $pageNumber, $nbPerPage);
     }
 
-    /**
-     * @return BaseDTOInterface|null
-     */
-    public function getOneByCriteria(array $critieria, array $selects = []): ?BaseDTOInterface
+    public function getOneByCriteria(array $critieria, array $selects = []): ?DTOInterface
     {
         return $this->getRepository()->findOneByCriteria($critieria, $selects);
     }

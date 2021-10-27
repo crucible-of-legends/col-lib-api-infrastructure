@@ -48,7 +48,7 @@ trait DocumentQueryBuilderAdapterTrait
     }
 
     /**
-     * @return DTOInterface|null|object
+     * @return DTOInterface|object|null
      */
     public function getSingleResult(): ?DTOInterface
     {
@@ -70,7 +70,7 @@ trait DocumentQueryBuilderAdapterTrait
     public function pagination(int $pageNumber, int $nbPerPage): void
     {
         $this->queryBuilder->limit($nbPerPage)
-                           ->skip($nbPerPage*($pageNumber-1));
+            ->skip($nbPerPage * ($pageNumber - 1));
     }
 
     public function getCountResult(): int

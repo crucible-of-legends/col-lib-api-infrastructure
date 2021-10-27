@@ -31,19 +31,19 @@ abstract class AbstractSQLBaseRepository extends AbstractBaseRepository
             return [null, null, null];
         }
 
-        $operator       = $exclude ? '!=' : '=';
-        $condition      = $alias . '.' . $fieldName . ' ' . $operator . ' :' . $alias . '_' . $fieldName;
-        $parameterField = $alias . '_' . $fieldName;
-        $parameterValue = $value !== false && empty($value) ? null : $value;
+        $operator = $exclude ? '!=' : '=';
+        $condition = $alias.'.'.$fieldName.' '.$operator.' :'.$alias.'_'.$fieldName;
+        $parameterField = $alias.'_'.$fieldName;
+        $parameterValue = false !== $value && empty($value) ? null : $value;
         if (is_array($value)) {
-            $operator  = $exclude ? 'NOT IN' : 'IN';
-            $condition = $alias . '.' . $fieldName . ' ' . $operator . ' (:' . $alias . '_' . $fieldName . ')';
+            $operator = $exclude ? 'NOT IN' : 'IN';
+            $condition = $alias.'.'.$fieldName.' '.$operator.' (:'.$alias.'_'.$fieldName.')';
         } elseif ('NULL' === $value) {
-            $condition = $alias . '.' . $fieldName . ' IS NULL';
+            $condition = $alias.'.'.$fieldName.' IS NULL';
             $parameterField = null;
             $parameterValue = null;
         } elseif ('NOT NULL' === $value) {
-            $condition = $alias . '.' . $fieldName . ' IS NOT NULL';
+            $condition = $alias.'.'.$fieldName.' IS NOT NULL';
             $parameterField = null;
             $parameterValue = null;
         }

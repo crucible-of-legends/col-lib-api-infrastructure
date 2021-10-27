@@ -11,7 +11,7 @@ final class SystemClock implements ClockInterface
 {
     private DateTimeZone $timezone;
 
-    public function __construct(DateTimeZone $timezone = null)
+    public function __construct(?DateTimeZone $timezone = null)
     {
         $this->timezone = $timezone ?: new DateTimeZone(date_default_timezone_get());
     }

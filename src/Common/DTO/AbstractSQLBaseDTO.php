@@ -2,41 +2,17 @@
 
 namespace COL\Library\Infrastructure\Common\DTO;
 
+use COL\Librairy\BaseContracts\Domain\DataInteractor\DTO\DTOInterface;
 use DateTimeInterface;
 
-abstract class AbstractSQLBaseDTO implements BaseDTOInterface
+abstract class AbstractSQLBaseDTO implements DTOInterface
 {
-    protected ?int $id = null;
-    protected string $status;
-    protected ?DateTimeInterface $deletedDate;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    public ?int $id = null;
+    public string $status;
+    public ?DateTimeInterface $deletedDate;
 
     public function isNew(): bool
     {
-        return $this->id === null;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): void
-    {
-        $this->status = $status;
-    }
-
-    public function getDeletedDate(): ?DateTimeInterface
-    {
-        return $this->deletedDate;
-    }
-
-    public function setDeletedDate(?DateTimeInterface $deletedDate): void
-    {
-        $this->deletedDate = $deletedDate;
+        return null === $this->id;
     }
 }

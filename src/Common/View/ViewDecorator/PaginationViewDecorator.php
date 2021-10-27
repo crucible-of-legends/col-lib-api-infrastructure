@@ -2,7 +2,8 @@
 
 namespace COL\Library\Infrastructure\Common\View\ViewDecorator;
 
-use COL\Library\Contracts\View\Decor\PaginationViewDecor;
+use COL\Librairy\BaseContracts\Domain\View\Decorator\ViewDecoratorInterface;
+use COL\Library\ApiContracts\Domain\View\Decor\PaginationViewDecor;
 
 final class PaginationViewDecorator implements ViewDecoratorInterface
 {

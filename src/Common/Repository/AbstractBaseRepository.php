@@ -6,17 +6,16 @@ use COL\Librairy\BaseContracts\Domain\DataInteractor\DTO\DTOInterface;
 use COL\Librairy\BaseContracts\Domain\Registry\DTOStatusRegistry;
 use COL\Librairy\BaseContracts\Domain\Registry\OrderDirectionRegistry;
 use COL\Librairy\BaseContracts\Domain\Repository\RepositoryInterface;
+use COL\Librairy\BaseContracts\Infrastructure\Adatper\Database\DatabaseAdapterInterface;
 use COL\Librairy\BaseContracts\Infrastructure\Adatper\Database\QueryBuilderAdapterInterface;
-use COL\Library\Infrastructure\Adapter\Database\DatabaseAdapterInterface;
+use LogicException;
 
 abstract class AbstractBaseRepository implements RepositoryInterface
 {
-    private DatabaseAdapterInterface $databaseAdapter;
     private ?string $dtoAlias = null;
 
-    public function __construct(DatabaseAdapterInterface $databaseAdapter)
+    public function __construct(private DatabaseAdapterInterface $databaseAdapter)
     {
-        $this->databaseAdapter = $databaseAdapter;
     }
 
     /**
@@ -27,9 +26,8 @@ abstract class AbstractBaseRepository implements RepositoryInterface
         array $selects = [],
         array $orders = [],
         ?int $pageNumber = null,
-        ?int $nbPerPage = null
-    ): array
-    {
+        ?int $nbPerPage = null,
+    ): array {
         $queryBuilder = $this->findManyByCriteriaBuilder($criteria, $selects, $orders);
         $queryBuilder->pagination($pageNumber, $nbPerPage);
 
@@ -39,25 +37,23 @@ abstract class AbstractBaseRepository implements RepositoryInterface
     public function findManyByCriteriaBuilder(
         array $criteria = [],
         array $selects = [],
-        array $orders = []
-    ): QueryBuilderAdapterInterface
-    {
+        array $orders = [],
+    ): QueryBuilderAdapterInterface {
         $queryBuilder = $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), $this->getAlias());
         $this->addCriteria($queryBuilder, $this->addGenericCriteria($criteria))
-             ->addOrderBys($queryBuilder, $orders)
-             ->addSelects($queryBuilder, $selects);
+            ->addOrderBys($queryBuilder, $orders)
+            ->addSelects($queryBuilder, $selects);
 
         return $queryBuilder;
     }
 
     public function findOneByCriteria(
         array $criteria,
-        array $selects = []
-    ): ?DTOInterface
-    {
+        array $selects = [],
+    ): ?DTOInterface {
         $queryBuilder = $this->databaseAdapter->createQueryBuilder($this->getDTOClassName(), $this->getAlias());
         $this->addCriteria($queryBuilder, $criteria)
-             ->addSelects($queryBuilder, $selects);
+            ->addSelects($queryBuilder, $selects);
 
         return $queryBuilder->getSingleResult();
     }
@@ -86,7 +82,7 @@ abstract class AbstractBaseRepository implements RepositoryInterface
             $this->dtoAlias = lcfirst(end($last));
         }
 
-        return  $this->dtoAlias;
+        return $this->dtoAlias;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,7 +93,7 @@ abstract class AbstractBaseRepository implements RepositoryInterface
     {
         foreach ($criteria as $field => $value) {
             if ($field) {
-                $this->{'addCriterion' . ucfirst($field)}($queryBuilder, $value);
+                $this->{'addCriterion'.ucfirst($field)}($queryBuilder, $value);
             }
         }
 
@@ -108,7 +104,7 @@ abstract class AbstractBaseRepository implements RepositoryInterface
     {
         foreach ($selects as $field => $value) {
             if ($field) {
-                $this->{'addSelect' . ucfirst($field)}($queryBuilder, $value);
+                $this->{'addSelect'.ucfirst($field)}($queryBuilder, $value);
             }
         }
 
@@ -119,7 +115,7 @@ abstract class AbstractBaseRepository implements RepositoryInterface
     {
         foreach ($orderBys as $orderBy => $direction) {
             if ($orderBy) {
-                $this->{'addOrderBy' . ucfirst($orderBy)}($queryBuilder, $direction);
+                $this->{'addOrderBy'.ucfirst($orderBy)}($queryBuilder, $direction);
             }
         }
 
@@ -133,7 +129,7 @@ abstract class AbstractBaseRepository implements RepositoryInterface
     protected function addOrderBy(QueryBuilderAdapterInterface $queryBuilder, $fieldName, $direction): void
     {
         if (false === in_array($direction, [OrderDirectionRegistry::ORDER_DIRECTION_DESC, OrderDirectionRegistry::ORDER_DIRECTION_ASC], true)) {
-            throw new \LogicException("$direction is not a valid value for order by 'direction' parameter.");
+            throw new LogicException("{$direction} is not a valid value for order by 'direction' parameter.");
         }
 
         $queryBuilder->addOrderBy($fieldName, $direction);
@@ -142,10 +138,11 @@ abstract class AbstractBaseRepository implements RepositoryInterface
     private function addGenericCriteria(array $criteria = []): array
     {
         if (false === isset($criteria['status']) && property_exists($this->getDTOClassName(), 'status')) {
-            $excludedStatus             = isset($criteria['excludedStatus']) ?? $criteria['excludedStatus'];
-            $excludedStatus             = is_array($excludedStatus) ? $excludedStatus : [$excludedStatus];
+            $excludedStatus = isset($criteria['excludedStatus']) ?? $criteria['excludedStatus'];
+            $excludedStatus = is_array($excludedStatus) ? $excludedStatus : [$excludedStatus];
             $criteria['excludedStatus'] = array_merge([DTOStatusRegistry::STATUS_DELETED], $excludedStatus);
         }
+
         return $criteria;
     }
 
@@ -159,7 +156,7 @@ abstract class AbstractBaseRepository implements RepositoryInterface
 
     public function addCriterionExcludedStatus(QueryBuilderAdapterInterface $queryBuilder, $excludedStatus): bool
     {
-        return $this->addCriterion($queryBuilder, 'status', $excludedStatus, $this->getAlias(),true);
+        return $this->addCriterion($queryBuilder, 'status', $excludedStatus, $this->getAlias(), true);
     }
 
     public function addCriterionStatus(QueryBuilderAdapterInterface $queryBuilder, $status): bool
