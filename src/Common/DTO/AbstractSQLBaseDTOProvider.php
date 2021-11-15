@@ -18,6 +18,11 @@ abstract class AbstractSQLBaseDTOProvider implements DTOProviderInterface
         return $this->getRepository()->findManyByCriteria($critieria, $selects, $orders, $pageNumber, $nbPerPage);
     }
 
+    public function getOneByCId(string|int $id): ?DTOInterface
+    {
+        return $this->getRepository()->findOneByCriteria(['id' => $id]);
+    }
+
     public function getOneByCriteria(array $critieria, array $selects = []): ?DTOInterface
     {
         return $this->getRepository()->findOneByCriteria($critieria, $selects);
