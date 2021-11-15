@@ -2,7 +2,7 @@
 
 namespace COL\Library\Infrastructure\Common\Repository;
 
-use COL\Librairy\BaseContracts\Infrastructure\Adatper\Database\QueryBuilderAdapterInterface;
+use COL\Librairy\BaseContracts\Infrastructure\Adapter\Database\QueryBuilderAdapterInterface;
 
 abstract class AbstractDocumentBaseRepository extends AbstractBaseRepository
 {

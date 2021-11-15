@@ -6,8 +6,8 @@ use COL\Librairy\BaseContracts\Domain\DataInteractor\DTO\DTOInterface;
 use COL\Librairy\BaseContracts\Domain\Registry\DTOStatusRegistry;
 use COL\Librairy\BaseContracts\Domain\Registry\OrderDirectionRegistry;
 use COL\Librairy\BaseContracts\Domain\Repository\RepositoryInterface;
-use COL\Librairy\BaseContracts\Infrastructure\Adatper\Database\DatabaseAdapterInterface;
-use COL\Librairy\BaseContracts\Infrastructure\Adatper\Database\QueryBuilderAdapterInterface;
+use COL\Librairy\BaseContracts\Infrastructure\Adapter\Database\DatabaseAdapterInterface;
+use COL\Librairy\BaseContracts\Infrastructure\Adapter\Database\QueryBuilderAdapterInterface;
 use LogicException;
 
 abstract class AbstractBaseRepository implements RepositoryInterface
